@@ -4,9 +4,7 @@ import dynamic from "next/dynamic";
 import { imcBrand } from "./brand-system";
 import { useEffect, useRef, useState, type FormEvent } from "react";
 import { ArrowRight, ArrowLeft, Plus, Trash2, Package } from "lucide-react";
-import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
-import { Progress } from "@/components/ui/progress";
+import { Input, Textarea, Progress } from "./form-controls";
 import { inventoryItems, inventoryTotal } from "./inventory-data";
 
 const sizes = ["Complete household", "Part of household", "Few pieces of furniture", "Some boxes or luggage"];

@@ -1,6 +1,6 @@
 "use client";
 import {useState} from "react";
-import {Input} from "@/components/ui/input";
+import { Input } from "./form-controls";
 import {chargeableWeight} from "../lib/chargeable-weight";
 export function ChargeableWeightTool(){
  const [values,setValues]=useState(['60','50','40','8','6000']);

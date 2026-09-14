@@ -1,9 +1,7 @@
 "use client";
 import { MeasurementGraphic } from "./moving-graphics";
 import { useState } from "react";
-import { Input } from "@/components/ui/input";
-import { Checkbox } from "@/components/ui/checkbox";
-import { Progress } from "@/components/ui/progress";
+import { Input, Checkbox, Progress } from "./form-controls";
 import { calculateVolume } from "./move-maths";
 
 export function VolumeCalculator() {

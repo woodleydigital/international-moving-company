@@ -5,7 +5,7 @@ import { imcBrand } from "./brand-system";
 import { useEffect, useRef, useState, type FormEvent } from "react";
 import { ArrowRight, ArrowLeft, Plus, Trash2, Package } from "lucide-react";
 import { Input, Textarea, Progress } from "./form-controls";
-import { inventoryItems, inventoryTotal } from "./inventory-data";
+type InventoryModule = typeof import("./inventory-data");
 
 const sizes = ["Complete household", "Part of household", "Few pieces of furniture", "Some boxes or luggage"];
 // The dropdown is needed only on step two; keep its interaction code off the initial path.
@@ -19,6 +19,7 @@ export function QuoteForm() {
   const [quantities, setQuantities] = useState<Record<string, number>>({});
   const [search, setSearch] = useState("");
   const [error, setError] = useState("");
+  const [inventory, setInventory] = useState<InventoryModule | null>(null);
   const heading = useRef<HTMLHeadingElement>(null);
   const previousStep = useRef(0);
   useEffect(() => {
@@ -26,10 +27,19 @@ export function QuoteForm() {
     previousStep.current = step;
   }, [step]);
   const smallMove = sizes.slice(2).includes(details.size);
-  const selected = inventoryItems.filter(item => quantities[item.item] > 0);
-  const total = inventoryTotal(quantities);
+  // 89 items of catalogue data are only needed once a small move reaches the
+  // item list, so keep them out of the chunk that loads with the hero.
+  useEffect(() => {
+    if (!smallMove || inventory) return;
+    let current = true;
+    import("./inventory-data").then(module => { if (current) setInventory(module); });
+    return () => { current = false; };
+  }, [smallMove, inventory]);
+  const items: InventoryModule["inventoryItems"] | readonly [] = inventory?.inventoryItems ?? [];
+  const selected = items.filter(item => quantities[item.item] > 0);
+  const total = inventory ? inventory.inventoryTotal(quantities) : 0;
   const query = search.trim().toLowerCase();
-  const matches = inventoryItems.filter(item => {
+  const matches = items.filter(item => {
     const searchable = `${item.item} ${item.item.includes("Seater") ? "sofa couch" : ""} ${item.item.includes("Carton") ? "box boxes" : ""}`.toLowerCase();
     return query.split(/\s+/).every(word => searchable.includes(word));
   });
@@ -65,11 +75,12 @@ export function QuoteForm() {
         <label htmlFor="move-date">Moving date <span>(required)</span><Input id="move-date" type="date" value={details.date} onChange={e=>update("date",e.target.value)} required/></label>
         <div><label id="move-size-label" htmlFor="move-size">Moving size <span>(required)</span></label><MovingSizeSelect value={details.size} sizes={sizes} onValueChange={value=>{update("size",value);setError("");}}/></div>
         {smallMove && <section className="inventory" aria-labelledby="inventory-title">
-          <div className="inventory-heading"><h4 id="inventory-title">Your item list</h4><span>{inventoryItems.length} items available</span></div>
+          <div className="inventory-heading"><h4 id="inventory-title">Your item list</h4><span>{inventory ? `${items.length} items available` : "Loading items…"}</span></div>
           <p className="quote-help">Add everything you’re moving, then set the quantities. Volumes are estimates per item.</p>
           <label htmlFor="inventory-search">Find an item<Input id="inventory-search" type="search" placeholder="Try sofa, bed or carton" value={search} onChange={e=>setSearch(e.target.value)} /></label>
           <ul className="inventory-catalog" aria-label="Available inventory items">{matches.map(entry=><li key={entry.item}><div><strong>{entry.item}</strong><span>{entry.volumeM3.toFixed(2)} m³ each</span></div><button type="button" className="inventory-add" aria-label={`Add ${entry.item}`} disabled={(quantities[entry.item]??0)>=999} onClick={()=>changeQuantity(entry.item,(quantities[entry.item]??0)+1)}><Plus size={16}/><span>Add</span></button></li>)}</ul>
-          {!matches.length && <p className="quote-help">No matching items. Try another name or describe the item in your notes.</p>}
+          {inventory && !matches.length && <p className="quote-help">No matching items. Try another name or describe the item in your notes.</p>}
+          {!inventory && <p className="quote-help">Loading the item list…</p>}
           {selected.length > 0 && <ul className="inventory-selected" aria-label="Selected inventory">{selected.map(entry=><li key={entry.item}><div><strong>{entry.item}</strong><span>{(Math.round(entry.volumeM3*100)*quantities[entry.item]/100).toFixed(2)} m³</span></div><label><span className="sr-only">Quantity of {entry.item}</span><Input type="number" min={0} max={999} step={1} value={quantities[entry.item]} onChange={e=>changeQuantity(entry.item,Number(e.target.value))}/></label><button type="button" className="inventory-remove" aria-label={`Remove ${entry.item}`} onClick={()=>changeQuantity(entry.item,0)}><Trash2 size={17}/></button></li>)}</ul>}
           <div className="inventory-total" role="status" aria-live="polite"><span>Estimated volume</span><strong>{total.toFixed(2)} <small>m³</small></strong></div>
           <p className="quote-help">Final shipping volume will be confirmed after review of your belongings and packing needs.</p>

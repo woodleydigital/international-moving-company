@@ -28,8 +28,39 @@ The complete 156-file source was published to GitHub after the user's explicit a
 
 Set `outputDirectory: ".next"` in `vercel.json` so it explicitly overrides an incorrect dashboard value. The existing Next.js configuration continues to use `output: "export"`; do not change `distDir` or copy framework manifests into `out/`. The validated local build has `.next/routes-manifest.json`, `.next/required-server-files.json` and `out/index.html`. A successful Vercel deployment must still be confirmed after the correction.
 
+## Google Places address autocomplete
+
+The quote form's "Moving from" and "Moving to" fields upgrade to Google's
+`PlaceAutocompleteElement` when `NEXT_PUBLIC_GOOGLE_MAPS_API_KEY` is set. To
+enable it:
+
+1. In Google Cloud, on the project for this site, enable the **Places API
+   (New)** and the **Maps JavaScript API**.
+2. Create a browser API key and restrict it. Under **Application
+   restrictions**, choose *Websites* and list the production hostname and the
+   Vercel preview hostnames. Under **API restrictions**, limit the key to the
+   two APIs above. The key is compiled into the static export and is readable
+   by anyone; the referrer restriction, not secrecy, is what protects it.
+3. Add `NEXT_PUBLIC_GOOGLE_MAPS_API_KEY` in the Vercel project's environment
+   variables and redeploy. `NEXT_PUBLIC_` values are inlined at build time, so
+   a redeploy is required — setting the variable alone changes nothing.
+4. Set a billing budget and alerts. Autocomplete is charged per session.
+
+Leave the variable unset and both fields stay plain text inputs, which is the
+behaviour described under preview boundaries in the README.
+
+The component degrades to that same plain input whenever Places cannot be
+used: no key, a blocked or failed script, a rejected key, or an exhausted
+quota. A typed "city, country" remains a valid answer in every case. This was
+verified against a stubbed Places library; **confirm the prediction list,
+styling and screen-reader labelling against the live API once a real key is
+in place**, since the element renders its input inside a shadow tree.
+
+Legacy `google.maps.places.Autocomplete` is deliberately not used: it has been
+unavailable to Google Cloud projects created after 1 March 2025.
+
 ## Launch boundaries
 
-Preserve `noindex, nofollow` and the disabled enquiry submission while the site remains a preview. Verify hosting access controls separately. The form delivery service, Google Places configuration, approved legal/operator details and public indexing review remain launch work. Use only the exact DNS records supplied by the final Vercel project; preserve unrelated email and verification records.
+Preserve `noindex, nofollow` and the disabled enquiry submission while the site remains a preview. Verify hosting access controls separately. The form delivery service, approved legal/operator details and public indexing review remain launch work. Google Places is implemented but inert until the key is configured and verified; see the section above. Use only the exact DNS records supplied by the final Vercel project; preserve unrelated email and verification records.
 
 No redirect or site-move configuration from MoverFocus.com or internationalmoving.services is part of this project.

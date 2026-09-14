@@ -40,7 +40,7 @@ See `docs/DEPLOYMENT.md` for the hosting handoff and current launch boundaries. 
 ## Current preview boundaries
 
 - Search indexing is deliberately disabled (`noindex, nofollow`). Connecting a repository or domain must not silently remove that setting.
-- The quote form is a working interface preview; requests are not delivered. Addresses are entered manually until Google Places and its restrictions are configured.
+- The quote form is a working interface preview; requests are not delivered. Address autocomplete is implemented but stays off until `NEXT_PUBLIC_GOOGLE_MAPS_API_KEY` is set on a referrer-restricted key; until then the fields are plain text inputs. See `docs/DEPLOYMENT.md`.
 - Legal policies remain drafts pending verified operating-company details and approval. Do not invent accreditations, reviews, job titles, prices or operational guarantees.
 - The original IMC logo, navy/teal/ivory palette, shared Georgia/Arial typography and desktop quote panel on the right remain the approved design.
 - Service and brand pages take priority. Country/route rollout and programmatic SEO are deferred. There are no legacy-domain redirects.

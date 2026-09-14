@@ -5,6 +5,7 @@ import { imcBrand } from "./brand-system";
 import { useEffect, useRef, useState, type FormEvent } from "react";
 import { ArrowRight, ArrowLeft, Plus, Trash2, Package } from "lucide-react";
 import { Input, Textarea, Progress } from "./form-controls";
+import { AddressAutocomplete } from "./address-autocomplete";
 type InventoryModule = typeof import("./inventory-data");
 
 const sizes = ["Complete household", "Part of household", "Few pieces of furniture", "Some boxes or luggage"];
@@ -67,8 +68,8 @@ export function QuoteForm() {
       <h3 ref={heading} tabIndex={-1} className="quote-stage-title">{["Where are you moving?", "What are you moving?", "How can we contact you?"][step]}</h3>
       {error && <p role="alert" className="quote-error">{error}</p>}
       {step === 0 && <div className="quote-fields">
-        <label htmlFor="move-from">Moving from <span>(required)</span><Input id="move-from" name="origin" value={details.from} onChange={e=>update("from",e.target.value)} required maxLength={300} placeholder="Address or city and country" autoComplete="off"/></label>
-        <label htmlFor="move-to">Moving to <span>(required)</span><Input id="move-to" name="destination" value={details.to} onChange={e=>update("to",e.target.value)} required maxLength={300} placeholder="Address or city and country" autoComplete="off" aria-describedby="destination-help"/></label>
+        <label htmlFor="move-from">Moving from <span>(required)</span><AddressAutocomplete id="move-from" name="origin" label="Moving from" description="Choose an address suggestion, or type any city and country." value={details.from} onChange={value=>update("from",value)} required maxLength={300} placeholder="Address or city and country" autoComplete="off"/></label>
+        <label htmlFor="move-to">Moving to <span>(required)</span><AddressAutocomplete id="move-to" name="destination" label="Moving to" description="Choose an address suggestion, or type any city and country." value={details.to} onChange={value=>update("to",value)} required maxLength={300} placeholder="Address or city and country" autoComplete="off" aria-describedby="destination-help"/></label>
         <p id="destination-help" className="quote-help">No destination address yet? A city and country is enough to start.</p>
       </div>}
       {step === 1 && <div className="quote-fields">

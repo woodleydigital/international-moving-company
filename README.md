@@ -33,7 +33,7 @@ Next.js exports the pages and public assets to `out/`. Main page content, headin
 
 ## Vercel deployment
 
-Import `woodleydigital/international-moving-company` into the intended Vercel team, using the repository root and the Next.js framework preset. `vercel.json` sets `npm ci`, `npm run build` and the `out` output directory. Keep the repository connected so future commits can trigger deployments. The presence of this configuration does not confirm that the account-side Git connection or deployment has succeeded.
+Import `woodleydigital/international-moving-company` into the intended Vercel team, using the repository root and the Next.js framework preset. `vercel.json` sets `npm ci`, `npm run build` and `.next` as the framework build directory. Vercel's Next.js integration needs the manifests in `.next`; the separate `out/` folder contains the exported static site. Do not set Vercel's Next.js Output Directory to `out`. Keep the repository connected so future commits can trigger deployments. The presence of this configuration does not confirm that the account-side Git connection or deployment has succeeded.
 
 See `docs/DEPLOYMENT.md` for the hosting handoff and current launch boundaries. The existing `.openai/hosting.json` belongs to the earlier Sites preview and does not configure Vercel or the custom domain.
 

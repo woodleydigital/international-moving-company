@@ -1,0 +1,41 @@
+/* IMC type system. Heading families and scales are owned here. */
+:root{
+  --font-editorial:Georgia,"Times New Roman",serif;
+  --font-interface:Arial,Helvetica,sans-serif;
+  --type-display:clamp(2.625rem,1.75rem + 3.4vw,4.5rem);
+  --type-page-title:clamp(2.25rem,1.6rem + 2.5vw,3.5rem);
+  --type-section:clamp(2rem,1.55rem + 1.8vw,2.75rem);
+  --type-subsection:clamp(1.75rem,1.5rem + 1vw,2rem);
+  --type-card:1.375rem;
+  --type-body:1.0625rem;
+  --type-ui:1rem;
+  --type-label:.875rem;
+  --type-caption:.875rem;
+}
+body{font-family:var(--font-interface);font-size:var(--type-body);line-height:1.7}
+button,input,textarea,select{font-family:var(--font-interface)}
+h1,h2,h3,h4{text-wrap:balance;overflow-wrap:break-word}
+h1,h2{font-family:var(--font-editorial);font-weight:400}
+h1{font-size:var(--type-page-title);line-height:1.12;letter-spacing:-.035em}
+.hero h1{font-size:var(--type-display);line-height:1.08;letter-spacing:-.035em}
+.content-hero h1{font-size:var(--type-page-title);line-height:1.12;letter-spacing:-.03em}
+h2{font-size:var(--type-section);line-height:1.18;letter-spacing:-.025em}
+.content-body h2,.policy-document section h2,.content-links h2,.content-related h2,.content-cta h2,.pillar-closing h2{font-size:var(--type-subsection);line-height:1.22;letter-spacing:-.02em}
+h3{font-family:var(--font-interface);font-size:var(--type-card);font-weight:600;line-height:1.35;letter-spacing:-.015em}
+h4{font-family:var(--font-interface);font-size:var(--type-ui);font-weight:600;line-height:1.4;letter-spacing:0}
+.imc-person h3,.imc-person-secondary h3{font-family:var(--font-editorial);font-size:var(--type-subsection);font-weight:400;line-height:1.22;letter-spacing:-.02em}
+.enquiry-panel h2{font-family:var(--font-interface);font-size:1.75rem;font-weight:600;line-height:1.25;letter-spacing:-.025em}
+.quote-stage-title{font-family:var(--font-interface);font-size:1.125rem;font-weight:600;line-height:1.4;letter-spacing:0}
+.policy-footer h2{font-family:var(--font-interface);font-size:1.375rem;font-weight:600;line-height:1.35;letter-spacing:0}
+p{font-size:var(--type-body);line-height:1.75}
+.content-body section>p,.policy-document section p,.perspective-notes p,.field-notes-layout>div>p:not(.eyebrow),.service-grid p,.scope-grid p,.situation-grid p,.survey-grid p,.process-detail-grid>li>p,.handling-grid p,.practical-grid p,.imc-person-copy p,.imc-person-secondary p{font-size:var(--type-body);line-height:1.75}
+.eyebrow,.hero .eyebrow,.hero-copy .eyebrow,.panel-top .eyebrow,.section-heading>.eyebrow{font-family:var(--font-interface);font-size:var(--type-label);font-weight:700;line-height:1.5;letter-spacing:.09em}
+.quote-fields label,.quote-steps li,.quote-help,.quote-preview-note,.scope-selectors label{font-size:var(--type-label);line-height:1.5}
+.quote-fields input,.quote-fields textarea,.quote-select,.quote-size-option,.scope-selectors select{font-family:var(--font-interface);font-size:var(--type-ui);line-height:1.5}
+.quote-actions button,.header-cta,.text-link,.header-inner nav a{font-family:var(--font-interface);font-size:var(--type-label);font-weight:600;line-height:1.5}
+.moving-graphic .graphic-title,.volume-controls .moving-graphic .graphic-title{font-family:var(--font-interface);font-size:1.125rem;font-weight:600;line-height:1.45;letter-spacing:0}
+.moving-graphic h3,.graphic-compact .journey-stages h3,.milestone-row strong,.planning-visual>ol>li>strong{font-family:var(--font-interface);font-size:1.25rem;font-weight:600;line-height:1.35;letter-spacing:-.01em}
+.moving-graphic figcaption,.volume-controls .moving-graphic figcaption,.imc-person figcaption,.policy-portrait figcaption{font-family:var(--font-interface);font-size:var(--type-caption);line-height:1.65}
+.graphic-canvas svg{font-family:var(--font-interface)}
+.question-grid dt{font-family:var(--font-interface);font-size:var(--type-card);font-weight:600;line-height:1.4;letter-spacing:-.015em}
+@media(max-width:480px){:root{--type-card:1.25rem}.hero h1{font-size:2.625rem}.enquiry-panel h2{font-size:1.625rem}}

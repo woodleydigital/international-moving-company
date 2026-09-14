@@ -1,0 +1,9 @@
+"use client";
+import {useState} from "react";
+import {Input} from "@/components/ui/input";
+import {chargeableWeight} from "../lib/chargeable-weight";
+export function ChargeableWeightTool(){
+ const [values,setValues]=useState(['60','50','40','8','6000']);
+ const result=chargeableWeight(...values.map(Number) as [number,number,number,number,number]);
+ return <figure className="moving-graphic chargeable-tool" aria-label="Air cargo chargeable-weight calculator"><div className="graphic-title">One packed carton: compare space with weight</div><div className="graphic-canvas"><div className="weight-inputs">{['Length (cm)','Width (cm)','Height (cm)','Actual packed weight (kg)','Quoted divisor (cm³/kg)'].map((label,i)=><label key={label}><span>{label}</span><Input type="number" min="0.01" step="any" value={values[i]} onChange={e=>setValues(old=>old.map((v,j)=>i===j?e.target.value:v))}/></label>)}</div><div className="weight-result" aria-live="polite">{result?<><div className="weight-comparison"><div><span>ACTUAL PACKED WEIGHT</span><strong>{Number(values[3]).toFixed(2)} kg</strong></div><span className="weight-operator" aria-hidden="true">vs</span><div><span>VOLUMETRIC WEIGHT</span><strong>{result.volumetric.toFixed(2)} kg</strong></div></div><p className="weight-equation">{values[0]} × {values[1]} × {values[2]} ÷ {values[4]} = {result.volumetric.toFixed(2)} kg</p><div className="weight-answer"><span>Higher weight, before tariff rounding or minimums</span><strong>{result.chargeable.toFixed(2)} kg</strong><span>{result.basis} determines this example.</span></div></>:<p>Enter a positive number in every field to compare the weights.</p>}</div></div><figcaption>Illustrative single-piece calculation. The default divisor is an example, not an IMC tariff. Confirm the carrier’s divisor, measurement method, minimums and rounding; multi-piece rating can differ. This tool gives a weight comparison, not a price or acceptance decision.</figcaption></figure>;
+}

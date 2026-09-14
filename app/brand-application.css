@@ -1,0 +1,177 @@
+/* IMC identity application. Typography remains owned by typography.css. */
+:root {
+  --brand-ink: #142d3b;
+  --brand-accent: #167d8d;
+  --brand-accent-hover: #116a78;
+  --brand-paper: #f6f3ed;
+  --brand-muted: #526572;
+  --brand-line: #c7d4d8;
+  --brand-space-1: .5rem;
+  --brand-space-2: 1rem;
+  --brand-space-3: 1.5rem;
+  --brand-space-4: 2rem;
+  --brand-space-5: 3rem;
+}
+
+/* The selected raster mark is displayed at its original crop and aspect ratio. */
+.imc-identity {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--brand-space-2);
+  flex-shrink: 0;
+  text-decoration: none;
+  color: var(--brand-ink);
+  min-width: 0;
+}
+.imc-identity-mark {
+  position: relative;
+  display: block;
+  width: 6.75rem;
+  aspect-ratio: 730 / 280;
+  overflow: hidden;
+  flex-shrink: 0;
+  mix-blend-mode: multiply;
+}
+.imc-identity-mark img {
+  position: absolute;
+  max-width: none;
+  width: 210.410959%;
+  height: auto;
+  left: -56.164384%;
+  top: -57.857143%;
+}
+.imc-identity-name {
+  display: block;
+  border-left: 1px solid var(--brand-line);
+  padding-left: var(--brand-space-2);
+  font-family: var(--font-interface);
+  font-size: .875rem;
+  font-weight: 600;
+  line-height: 1.4;
+  letter-spacing: .01em;
+}
+.imc-identity-footer {
+  background: var(--brand-paper);
+  color: var(--brand-ink);
+  padding: var(--brand-space-2);
+  border-radius: 2px;
+}
+.imc-header .header-inner {
+  min-height: 6rem;
+  height: auto;
+  padding-block: 1rem;
+  gap: var(--brand-space-3);
+}
+.imc-header .header-inner nav { gap: var(--brand-space-3); }
+.imc-header .header-inner nav a { white-space: nowrap; }
+.imc-header .header-cta,
+.content-cta .header-cta {
+  background: var(--brand-accent);
+  border-color: var(--brand-accent);
+  color: white;
+  border-radius: 2px;
+}
+.imc-header .header-cta:hover,
+.content-cta .header-cta:hover {
+  background: var(--brand-accent-hover);
+  border-color: var(--brand-accent-hover);
+}
+.imc-header .header-cta { gap: .5rem; flex-shrink: 0; }
+.imc-identity:focus-visible,
+.imc-header a:focus-visible,
+.content-cta a:focus-visible {
+  outline: 2px solid white;
+  outline-offset: 2px;
+  box-shadow: 0 0 0 5px var(--brand-ink);
+}
+
+/* A restrained open corner links introductions to the doorway in the mark. */
+.hero-copy > .eyebrow::before,
+.content-hero > .container > .eyebrow::before,
+.imc-people-intro > .eyebrow::before {
+  content: "";
+  display: block;
+  width: .75rem;
+  height: 1rem;
+  border-top: 2px solid currentColor;
+  border-left: 2px solid currentColor;
+  flex-shrink: 0;
+}
+.hero::before,.hero::after { content: none; }
+.content-hero { border-top: 3px solid var(--brand-accent); }
+.hero .quote-panel { border-top: 3px solid var(--brand-accent); }
+.experience-note {
+  border-top: 1px solid var(--brand-line);
+  margin-top: var(--brand-space-4);
+  padding-top: var(--brand-space-3);
+}
+.experience-note p + p { margin-top: var(--brand-space-2); }
+.experience-note strong { color: var(--brand-ink); font-weight: 600; }
+.experience-note .text-link { margin-top: var(--brand-space-3); }
+.moving-graphic .graphic-title { border-top: 2px solid var(--brand-accent); }
+.inventory-total,.quote-summary,.volume-value,.weight-answer { font-variant-numeric: tabular-nums; }
+
+/* Matching circular frames display the approved profile photographs. */
+.imc-person { grid-template-columns: 200px minmax(0, 620px); }
+.imc-person + .imc-person { margin-top: var(--brand-space-5); }
+.imc-person figure, .policy-portrait { max-width: 200px; }
+.imc-portrait-frame {
+  display: block;
+  position: relative;
+  width: 100%;
+  max-width: 200px;
+  aspect-ratio: 1;
+  overflow: hidden;
+  border-radius: 50%;
+  border: 1px solid var(--brand-line);
+  background: var(--brand-paper);
+}
+.imc-portrait-frame img {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center top;
+}
+
+@media (max-width: 640px) {
+  .imc-person { grid-template-columns: minmax(0, 1fr); }
+}
+
+@media (max-width: 1100px) {
+  .imc-header .header-inner { flex-wrap: wrap; gap: 1rem; }
+  .imc-header .header-cta { margin-left: auto; }
+  .imc-header .header-inner nav {
+    display: flex;
+    order: 3;
+    width: 100%;
+    margin: 0;
+    padding-top: .75rem;
+    border-top: 1px solid var(--brand-line);
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: .75rem 1.5rem;
+  }
+}
+@media (max-width: 600px) {
+  .imc-header .header-inner { min-height: 0; padding-block: 1rem; }
+  .imc-identity { gap: .625rem; }
+  .imc-identity-mark { width: 4rem; }
+  .imc-identity-name { padding-left: .625rem; font-size: .875rem; }
+  .imc-header .header-cta { padding: .625rem .75rem; }
+  .imc-header .header-cta svg { display: none; }
+  .imc-header .header-inner nav { column-gap: 1rem; row-gap: .5rem; }
+  .imc-header .header-inner nav a { min-height: 2rem; display: flex; align-items: center; }
+  .imc-identity-footer .imc-identity-mark { width: 5rem; }
+  .imc-identity-footer { max-width: 100%; }
+}
+@media (max-width: 360px) {
+  .imc-header .header-inner > .imc-identity { width: 100%; }
+  .imc-header .header-cta { margin-left: 0; }
+}
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after { animation: none !important; transition: none !important; }
+}

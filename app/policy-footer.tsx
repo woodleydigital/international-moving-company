@@ -1,0 +1,2 @@
+import { policyPages } from "./legal-content";
+export function PolicyFooter(){return <nav className="container policy-footer" aria-label="Useful links"><h2>Useful links</h2><div>{['about-us','contact-us','modern-slavery-statement','code-of-ethics','accessibility','edi-policy','privacy-policy','terms-and-conditions'].map(slug=><a key={slug} href={`/${slug}/`}>{policyPages[slug].title}</a>)}</div></nav>}

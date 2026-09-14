@@ -3,7 +3,7 @@ import { imcBrand } from "./brand-system";
 
 export function SiteBrand({ footer = false }: { footer?: boolean }) {
   return <a href="/" className={`imc-identity${footer ? " imc-identity-footer" : ""}`} aria-label={`${imcBrand.name} (${imcBrand.shortName}) — home`}>
-    <span className="imc-identity-mark" aria-hidden="true"><img src="/imc-original-identity.webp" width="1536" height="1024" alt="" /></span>
+    <span className="imc-identity-mark" aria-hidden="true"><img src="/imc-mark.webp" width="328" height="126" alt="" /></span>
     <span className="imc-identity-name">International<br />Moving Company</span>
   </a>;
 }

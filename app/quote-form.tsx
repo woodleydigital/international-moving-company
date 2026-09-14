@@ -1,15 +1,19 @@
 "use client";
 
+import dynamic from "next/dynamic";
 import { imcBrand } from "./brand-system";
 import { useEffect, useRef, useState, type FormEvent } from "react";
 import { ArrowRight, ArrowLeft, Plus, Trash2, Package } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Progress } from "@/components/ui/progress";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { inventoryItems, inventoryTotal } from "./inventory-data";
 
 const sizes = ["Complete household", "Part of household", "Few pieces of furniture", "Some boxes or luggage"];
+// The dropdown is needed only on step two; keep its interaction code off the initial path.
+const MovingSizeSelect = dynamic(() => import("./moving-size-select"), {
+  loading: () => <select id="move-size" className="quote-select" aria-labelledby="move-size-label" disabled><option>Loading moving sizes…</option></select>,
+});
 
 export function QuoteForm() {
   const [step, setStep] = useState(0);
@@ -61,7 +65,7 @@ export function QuoteForm() {
       </div>}
       {step === 1 && <div className="quote-fields">
         <label htmlFor="move-date">Moving date <span>(required)</span><Input id="move-date" type="date" value={details.date} onChange={e=>update("date",e.target.value)} required/></label>
-        <div><label id="move-size-label" htmlFor="move-size">Moving size <span>(required)</span></label><Select value={details.size} onValueChange={value=>{update("size",value);setError("");}}><SelectTrigger id="move-size" aria-labelledby="move-size-label" className="quote-select"><SelectValue placeholder="Select your moving size"/></SelectTrigger><SelectContent className="quote-size-menu" position="popper" align="start" sideOffset={6} collisionPadding={16}>{sizes.map(size=><SelectItem className="quote-size-option" key={size} value={size}>{size}</SelectItem>)}</SelectContent></Select></div>
+        <div><label id="move-size-label" htmlFor="move-size">Moving size <span>(required)</span></label><MovingSizeSelect value={details.size} sizes={sizes} onValueChange={value=>{update("size",value);setError("");}}/></div>
         {smallMove && <section className="inventory" aria-labelledby="inventory-title">
           <div className="inventory-heading"><h4 id="inventory-title">Your item list</h4><span>{inventoryItems.length} items available</span></div>
           <p className="quote-help">Add everything you’re moving, then set the quantities. Volumes are estimates per item.</p>

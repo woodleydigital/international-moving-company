@@ -13,7 +13,7 @@
   --brand-space-5: 3rem;
 }
 
-/* The selected raster mark is displayed at its original crop and aspect ratio. */
+/* Optimised derivative of the approved mark, preserving the original crop. */
 .imc-identity {
   display: inline-flex;
   align-items: center;
@@ -33,12 +33,9 @@
   mix-blend-mode: multiply;
 }
 .imc-identity-mark img {
-  position: absolute;
-  max-width: none;
-  width: 210.410959%;
-  height: auto;
-  left: -56.164384%;
-  top: -57.857143%;
+  display: block;
+  width: 100%;
+  height: 100%;
 }
 .imc-identity-name {
   display: block;
@@ -175,3 +172,16 @@
   html { scroll-behavior: auto; }
   *, *::before, *::after { animation: none !important; transition: none !important; }
 }
+
+/* Measured contrast corrections for the current navy and pale surfaces. */
+:root { --brand-accent-text: #116a78; }
+.hero-facts span { color: #d8e5e5; }
+.hero .quote-panel .eyebrow { color: var(--brand-accent-text); }
+.service-intro .eyebrow,
+.service-intro .service-caption,
+.detailed-process .process-detail-number,
+.field-notes .eyebrow,
+.preparation-section .eyebrow,
+.pillar-section .eyebrow,
+.pillar-section .topic-index { color: var(--brand-accent-text); }
+.detailed-process .pillar-heading p:last-child { color: var(--brand-muted); }

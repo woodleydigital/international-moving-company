@@ -46,15 +46,43 @@ enable it:
    a redeploy is required — setting the variable alone changes nothing.
 4. Set a billing budget and alerts. Autocomplete is charged per session.
 
+The referrer allowlist is what gates this. A key whose allowlist omits the
+site's own hostname returns `API_KEY_HTTP_REFERRER_BLOCKED` and the form
+silently stays on plain inputs, which is indistinguishable from the key not
+being set at all. Add the production hostname, `www` if used, and the Vercel
+preview pattern. Allowlist entries are matched exactly, so
+`https://internationalmoving.company/*` and
+`https://www.internationalmoving.company/*` are different entries.
+
 Leave the variable unset and both fields stay plain text inputs, which is the
 behaviour described under preview boundaries in the README.
 
 The component degrades to that same plain input whenever Places cannot be
 used: no key, a blocked or failed script, a rejected key, or an exhausted
-quota. A typed "city, country" remains a valid answer in every case. This was
-verified against a stubbed Places library; **confirm the prediction list,
-styling and screen-reader labelling against the live API once a real key is
-in place**, since the element renders its input inside a shadow tree.
+quota. A typed "city, country" remains a valid answer in every case.
+
+### Verified against the live API — 14 September 2026
+
+`PlaceAutocompleteElement` keeps its input in a **closed** shadow root. Nothing
+outside can query it, set attributes on it, or control its caret, so the
+component works only through the host element:
+
+- The `id` and an `aria-label` go on the host. Both were confirmed to name the
+  field; without them it announces itself to screen readers as "Search For a
+  Place" rather than "Moving from".
+- `::part(input)` styling still applies through the closed root, and the
+  quote-form layout rules were confirmed to take effect on the host.
+- `value`, `focus()` and the `input` event all work on the host.
+- A `<label for=…>` names the host but does not focus it on click, so the
+  component restores that behaviour itself.
+
+The blocked-key path was exercised end to end against the live API: Places
+returned `API_KEY_HTTP_REFERRER_BLOCKED`, the element raised `gmp-error`, the
+component restored the plain input, and the form completed normally.
+
+The prediction list itself is still unverified, because no referrer allowlisted
+on the current key could reach it. Confirm predictions render and
+`gmp-select` fills the field once the referrers below are in place.
 
 Legacy `google.maps.places.Autocomplete` is deliberately not used: it has been
 unavailable to Google Cloud projects created after 1 March 2025.

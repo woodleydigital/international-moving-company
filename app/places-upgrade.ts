@@ -43,7 +43,7 @@ function loadPlaces(key: string): Promise<PlacesLibrary> {
 }
 
 /** State of the plain input at the moment of the swap. */
-export type PendingInput = { value: string; caret: number | null; focused: boolean };
+export type PendingInput = { value: string; focused: boolean };
 
 export type UpgradeRequest = {
   apiKey: string;
@@ -59,6 +59,8 @@ export type UpgradeRequest = {
   description?: string;
   placeholder?: string;
   name?: string;
+  /** Applied to the element so the existing <label for=…> resolves to it. */
+  id?: string;
   onChange: (value: string) => void;
   /** Called if the key is rejected or the quota is spent, to restore the plain input. */
   onUnavailable: () => void;
@@ -79,6 +81,12 @@ export async function upgradeAddressField(request: UpgradeRequest): Promise<(() 
     ...(request.name ? { name: request.name } : {}),
   });
   element.className = "imc-address-autocomplete";
+  // The element keeps its input in a CLOSED shadow root, so nothing outside can
+  // reach it: no querySelector, no setting attributes on it, no caret control.
+  // Both of these were verified against the live API to name the field
+  // correctly; without them it announces itself as "Search For a Place".
+  if (request.id) element.id = request.id;
+  element.setAttribute("aria-label", request.label);
 
   // Free text counts: someone may type "Lisbon, Portugal" and never open the
   // prediction list.
@@ -118,11 +126,8 @@ export async function upgradeAddressField(request: UpgradeRequest): Promise<(() 
   });
 
   if (!pending.focused) return null;
-  // Put the person back where they were, mid-word if that is where they are.
-  return () => {
-    element.focus();
-    if (inner && pending.caret !== null) {
-      try { inner.setSelectionRange(pending.caret, pending.caret); } catch { /* not a text input */ }
-    }
-  };
+  // Focusing the host reaches the inner input and leaves the caret at the end
+  // of the text just restored, which is where the typing left off. The exact
+  // offset cannot be restored through a closed shadow root.
+  return () => element.focus();
 }

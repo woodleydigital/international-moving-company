@@ -51,9 +51,9 @@ export function AddressAutocomplete({ value, onChange, label, description, id, .
           host: host.current,
           readPending: () => ({
             value: plain.current?.value ?? latest.current.value,
-            caret: plain.current?.selectionStart ?? null,
             focused: plain.current !== null && document.activeElement === plain.current,
           }),
+          id,
           label,
           description,
           placeholder: props.placeholder,
@@ -68,7 +68,7 @@ export function AddressAutocomplete({ value, onChange, label, description, id, .
       .catch(() => {
         // Stay on the plain input; the form still accepts a typed location.
       });
-  }, [label, description, props.placeholder, props.name]);
+  }, [id, label, description, props.placeholder, props.name]);
 
   // Focus only once the host has been revealed; a hidden element cannot take it.
   useEffect(() => {

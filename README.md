@@ -29,7 +29,7 @@ Create the static production build:
 npm run build
 ```
 
-Next.js exports the pages and public assets to `out/`. Main page content, headings, links and JSON-LD are rendered into HTML at build time. Interactive planning tools and the quote form use client components. This is a static export, so `next start` is not the server for the exported build.
+Every page is prerendered to HTML at build time, including headings, links and JSON-LD. Interactive planning tools and the quote form are client components. The one server route is `app/api/quote/route.ts`, which receives quote requests; because of it the project is no longer a static export, so use `npm start` (`next start`) to run the production build locally.
 
 ## Vercel deployment
 
@@ -40,11 +40,11 @@ See `docs/DEPLOYMENT.md` for the hosting handoff and current launch boundaries. 
 ## Current preview boundaries
 
 - Search indexing is deliberately disabled (`noindex, nofollow`). Connecting a repository or domain must not silently remove that setting.
-- The quote form is a working interface preview; requests are not delivered. Address autocomplete is implemented but stays off until `NEXT_PUBLIC_GOOGLE_MAPS_API_KEY` is set on a referrer-restricted key; until then the fields are plain text inputs. See `docs/DEPLOYMENT.md`.
+- The quote form delivers enquiries by email through Postmark, and address autocomplete is live. Both are configured with environment variables and degrade safely when unset: without `POSTMARK_SERVER_TOKEN` the form reports that requests are not being delivered, and without `NEXT_PUBLIC_GOOGLE_MAPS_API_KEY` the address fields stay plain text inputs. See `docs/DEPLOYMENT.md`.
 - Legal policies remain drafts pending verified operating-company details and approval. Do not invent accreditations, reviews, job titles, prices or operational guarantees.
 - The original IMC logo, navy/teal/ivory palette, shared Georgia/Arial typography and desktop quote panel on the right remain the approved design.
 - Service and brand pages take priority. Country/route rollout and programmatic SEO are deferred. There are no legacy-domain redirects.
 
-Before accepting public leads, complete enquiry delivery and validation, address autocomplete if required, approved privacy/legal details, domain/HTTPS verification, and the production indexing/canonical review. Confirm deployment protection separately in Vercel: `noindex` is not access control.
+Enquiry delivery, validation and address autocomplete are done. Before accepting public leads, complete the approved privacy/legal details, domain/HTTPS verification, and the production indexing/canonical review. Confirm deployment protection separately in Vercel: `noindex` is not access control.
 
 Keep secrets in the hosting platform's environment settings. Never commit credentials or local environment files. Patent and research references guide the project; they do not establish verified Google ranking mechanisms or guaranteed SEO outcomes.

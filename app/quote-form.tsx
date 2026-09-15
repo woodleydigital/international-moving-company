@@ -20,6 +20,8 @@ export function QuoteForm() {
   const [quantities, setQuantities] = useState<Record<string, number>>({});
   const [search, setSearch] = useState("");
   const [error, setError] = useState("");
+  const [status, setStatus] = useState<"editing" | "sending" | "sent">("editing");
+  const [botField, setBotField] = useState("");
   const [inventory, setInventory] = useState<InventoryModule | null>(null);
   const heading = useRef<HTMLHeadingElement>(null);
   const previousStep = useRef(0);
@@ -50,14 +52,57 @@ export function QuoteForm() {
     setQuantities(q => ({...q, [item]:quantity}));
     setError("");
   }
-  function advance(event: FormEvent<HTMLFormElement>) {
+  async function advance(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     if (step === 0 && (!details.from.trim() || !details.to.trim())) { setError("Enter your origin and destination."); return; }
     if (step === 1 && !details.size) { setError("Select your moving size."); return; }
     if (step === 1 && smallMove && !selected.length) { setError("Add at least one item to your inventory."); return; }
     setError("");
-    if (step < 2) setStep(step + 1);
+    if (step < 2) { setStep(step + 1); return; }
+    await submit();
   }
+
+  async function submit() {
+    if (status === "sending") return;
+    setStatus("sending");
+    setError("");
+    try {
+      const response = await fetch("/api/quote/", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          origin: details.from, destination: details.to, movingDate: details.date,
+          movingSize: details.size, notes: details.notes,
+          name: details.name, email: details.email, phone: details.phone,
+          inventory: selected.map(entry => ({
+            item: entry.item, quantity: quantities[entry.item], volumeM3: entry.volumeM3,
+          })),
+          website: botField,
+        }),
+      });
+      const body = await response.json().catch(() => null);
+      if (!response.ok || !body?.ok) {
+        setError(body?.error ?? "We could not send that just now. Please try again.");
+        setStatus("editing");
+        return;
+      }
+      setStatus("sent");
+    } catch {
+      setError("We could not reach the server. Check your connection and try again.");
+      setStatus("editing");
+    }
+  }
+  if (status === "sent") {
+    return <section id="enquiry" className="enquiry-panel quote-panel" aria-labelledby="enquiry-title">
+      <div className="panel-top"><span className="eyebrow">YOUR MOVING PLAN</span><Package size={24}/></div>
+      <h2 id="enquiry-title">Thank you — your request is with us.</h2>
+      <div className="quote-sent" role="status">
+        <p>We’ve received your enquiry for <strong>{details.from} → {details.to}</strong> and sent it to our team.</p>
+        <p>We’ll be in touch at <strong>{details.email}</strong> to talk through your move. If anything changes in the meantime, just reply to our email.</p>
+      </div>
+    </section>;
+  }
+
   return <section id="enquiry" className="enquiry-panel quote-panel" aria-labelledby="enquiry-title">
     <div className="panel-top"><span className="eyebrow">YOUR MOVING PLAN</span><Package size={24}/></div>
     <h2 id="enquiry-title">{imcBrand.enquiryLabel}</h2>
@@ -93,9 +138,10 @@ export function QuoteForm() {
         <label htmlFor="quote-name">Name <span>(required)</span><Input id="quote-name" autoComplete="name" value={details.name} onChange={e=>update("name",e.target.value)} required maxLength={150}/></label>
         <label htmlFor="quote-phone">Phone <span>(required)</span><Input id="quote-phone" type="tel" autoComplete="tel" placeholder="Include country code" value={details.phone} onChange={e=>update("phone",e.target.value)} required maxLength={50}/></label>
         <label htmlFor="quote-email">Email <span>(required)</span><Input id="quote-email" type="email" autoComplete="email" value={details.email} onChange={e=>update("email",e.target.value)} required maxLength={254}/></label>
-        <p id="quote-preview-note" className="quote-preview-note">Preview only: quote requests aren’t being sent yet.</p>
+        <p className="quote-help">We’ll use these details to prepare your quote and get back to you. Nothing is shared with anyone else.</p>
+        <div className="quote-botfield" aria-hidden="true"><label htmlFor="quote-website">Leave this field empty</label><input id="quote-website" name="website" type="text" tabIndex={-1} autoComplete="off" value={botField} onChange={e=>setBotField(e.target.value)}/></div>
       </div>}
-      <div className="quote-actions">{step > 0 && <button type="button" className="quote-back" onClick={()=>{setStep(step-1);setError("");}}><ArrowLeft size={16}/>Back</button>}{step < 2 ? <button type="submit" className="quote-next">{step===0?"Move details":"Contact details"}<ArrowRight size={17}/></button> : <button type="button" className="quote-next" disabled aria-describedby="quote-preview-note">Submit quote request</button>}</div>
+      <div className="quote-actions">{step > 0 && <button type="button" className="quote-back" onClick={()=>{setStep(step-1);setError("");}}><ArrowLeft size={16}/>Back</button>}{step < 2 ? <button type="submit" className="quote-next">{step===0?"Move details":"Contact details"}<ArrowRight size={17}/></button> : <button type="submit" className="quote-next" disabled={status === "sending"}>{status === "sending" ? "Sending…" : "Submit quote request"}{status === "sending" ? null : <ArrowRight size={17}/>}</button>}</div>
     </form>
   </section>;
 }

@@ -34,7 +34,8 @@ function upstreamPolyfillIsReviewed() {
 }
 
 const config: NextConfig = {
-  output: "export",
+  // Not a static export: the quote form posts to a Route Handler, which a
+  // static export cannot serve. Every page is still prerendered at build time.
   trailingSlash: true,
   poweredByHeader: false,
   // Applies to `npm run build`, which pins webpack. `next dev` uses Turbopack

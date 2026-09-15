@@ -110,8 +110,53 @@ is still not delivered anywhere; that remains outstanding.
 Legacy `google.maps.places.Autocomplete` is deliberately not used: it has been
 unavailable to Google Cloud projects created after 1 March 2025.
 
+## Quote enquiry delivery
+
+Quote requests POST to `app/api/quote/route.ts`, which validates them and sends
+one plain-text email through Postmark. Adding this route is why the project is
+no longer `output: "export"` — a static export cannot serve a Route Handler.
+Every page is still prerendered; `/api/quote` is the only dynamic route.
+
+Set these in the Vercel project's environment variables, for Production and
+Preview:
+
+| Variable | Value |
+| --- | --- |
+| `POSTMARK_SERVER_TOKEN` | Server token from the Postmark server's API Tokens tab. Secret — not a `NEXT_PUBLIC_` variable. |
+| `ENQUIRY_FROM` | A confirmed Postmark Sender Signature or an address on a verified domain, e.g. `IMC <quotes@internationalmoving.company>`. Postmark rejects anything else. |
+| `ENQUIRY_TO` | Where enquiries land: `matthew@woodley.digital`. |
+| `POSTMARK_MESSAGE_STREAM` | Optional; defaults to `outbound`. |
+
+Unset, the route answers with "Quote requests are not being delivered yet" and
+the form shows that to the enquirer rather than pretending to succeed. It never
+reports success for an email it did not send.
+
+The reply-to is set to the enquirer, so replying in a mail client reaches them
+directly rather than the sending address.
+
+### Abuse controls
+
+- A honeypot field, hidden off-screen and untabbable. When filled, the route
+  returns success and sends nothing, so a bot learns nothing from the response.
+- Per-IP limits inside the route: 5 sends and 40 requests per 10 minutes.
+  Validation failures count only against the looser limit, so someone mistyping
+  the form is not locked out.
+- Request bodies over 32 KB are refused before parsing.
+
+The in-route limits are best-effort: they live in one warm serverless instance
+and do not coordinate across instances. **Vercel Firewall rate limiting, on the
+project's Pro plan, is the durable control** and should be configured on
+`/api/quote` before the site takes public traffic.
+
+### Before real enquiries arrive
+
+The form collects names, phone numbers, email addresses, both origin and
+destination addresses and a household inventory, and transmits them to Postmark
+and to the destination mailbox. The privacy policy is still a draft and does not
+yet describe this. Resolve that before the site is indexed or promoted.
+
 ## Launch boundaries
 
-Preserve `noindex, nofollow` and the disabled enquiry submission while the site remains a preview. Verify hosting access controls separately. The form delivery service, approved legal/operator details and public indexing review remain launch work. Google Places is implemented but inert until the key is configured and verified; see the section above. Use only the exact DNS records supplied by the final Vercel project; preserve unrelated email and verification records.
+Preserve `noindex, nofollow` while the site remains a preview. Enquiry submission is now live; see the section above for what still needs doing before real leads arrive. Verify hosting access controls separately. Approved legal/operator details and the public indexing review remain launch work. Google Places is implemented but inert until the key is configured and verified; see the section above. Use only the exact DNS records supplied by the final Vercel project; preserve unrelated email and verification records.
 
 No redirect or site-move configuration from MoverFocus.com or internationalmoving.services is part of this project.

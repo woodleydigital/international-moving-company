@@ -23,3 +23,8 @@
 .imc-address-autocomplete::part(prediction-item){font-size:15px;color:var(--ink)}
 .imc-address-autocomplete::part(prediction-item-secondary-text){color:var(--slate)}
 .imc-address-autocomplete::part(prediction-item-match){font-weight:700;color:var(--teal)}
+
+/* Honeypot: off-screen rather than display:none, which some bots skip. */
+.quote-botfield{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden}
+.quote-sent p{font-size:15px;line-height:1.7;margin-top:14px}
+.quote-sent strong{color:var(--ink)}

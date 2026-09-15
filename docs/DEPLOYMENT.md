@@ -91,14 +91,21 @@ The blocked-key path was exercised end to end against the live API: Places
 returned `API_KEY_HTTP_REFERRER_BLOCKED`, the element raised `gmp-error`, the
 component restored the plain input, and the form completed normally.
 
-### Predictions verified — 15 September 2026
+### Live on production — 15 September 2026
 
-The full path was exercised against the live Places API, with the built site
-served under a hostname already on the key's allowlist: predictions rendered,
-`gmp-select` returned a formatted address ("1 Queen Street, Auckland CBD,
-Auckland 1010, New Zealand"), and the form advanced on the selected values with
-no `gmp-error`. The integration itself is confirmed working; only the referrer
-allowlist stands between it and the live site.
+Verified on `https://internationalmoving.company/` and
+`https://internationalmoving.company/get-a-quote/`: the field upgrades to
+Google Places on focus, 26 autocomplete requests returned 200 with no
+`gmp-error`, predictions render, selecting one fills a formatted address
+("1 Queen Street, Auckland CBD, Auckland 1010, New Zealand"), the field is
+announced as "Moving from", and the form advances on the selected values.
+
+The referrer allowlist now admits both `https://internationalmoving.company/`
+and `https://www.internationalmoving.company/`. The earlier
+`*www.internationalmoving.company` entry matched neither.
+
+Address autocomplete is therefore no longer a launch item. The enquiry itself
+is still not delivered anywhere; that remains outstanding.
 
 Legacy `google.maps.places.Autocomplete` is deliberately not used: it has been
 unavailable to Google Cloud projects created after 1 March 2025.

@@ -39,12 +39,12 @@ See `docs/DEPLOYMENT.md` for the hosting handoff and current launch boundaries. 
 
 ## Current preview boundaries
 
-- Search indexing is deliberately disabled (`noindex, nofollow`). Connecting a repository or domain must not silently remove that setting.
+- Search indexing is enabled. Every page declares a canonical URL on the apex domain, `robots.txt` allows crawling and disallows `/api/`, and `sitemap.xml` lists 25 pages.
 - The quote form delivers enquiries by email through Postmark, and address autocomplete is live. Both are configured with environment variables and degrade safely when unset: without `POSTMARK_SERVER_TOKEN` the form reports that requests are not being delivered, and without `NEXT_PUBLIC_GOOGLE_MAPS_API_KEY` the address fields stay plain text inputs. See `docs/DEPLOYMENT.md`.
 - Legal policies remain drafts pending verified operating-company details and approval. Do not invent accreditations, reviews, job titles, prices or operational guarantees.
 - The original IMC logo, navy/teal/ivory palette, shared Georgia/Arial typography and desktop quote panel on the right remain the approved design.
 - Service and brand pages take priority. Country/route rollout and programmatic SEO are deferred. There are no legacy-domain redirects.
 
-Enquiry delivery, validation and address autocomplete are done. Before accepting public leads, complete the approved privacy/legal details, domain/HTTPS verification, and the production indexing/canonical review. Confirm deployment protection separately in Vercel: `noindex` is not access control.
+Enquiry delivery, validation, address autocomplete and the indexing/canonical setup are done. Before accepting public leads, complete the approved privacy/legal details and domain/HTTPS verification. Confirm deployment protection separately in Vercel: `noindex` is not access control.
 
 Keep secrets in the hosting platform's environment settings. Never commit credentials or local environment files. Patent and research references guide the project; they do not establish verified Google ranking mechanisms or guaranteed SEO outcomes.

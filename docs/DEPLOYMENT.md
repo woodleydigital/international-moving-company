@@ -157,6 +157,16 @@ yet describe this. Resolve that before the site is indexed or promoted.
 
 ## Launch boundaries
 
-Preserve `noindex, nofollow` while the site remains a preview. Enquiry submission is now live; see the section above for what still needs doing before real leads arrive. Verify hosting access controls separately. Approved legal/operator details and the public indexing review remain launch work. Google Places is implemented but inert until the key is configured and verified; see the section above. Use only the exact DNS records supplied by the final Vercel project; preserve unrelated email and verification records.
+Search indexing was enabled on 15 September 2026. `app/layout.tsx` sets
+`metadataBase` to the apex domain and `alternates: { canonical: "./" }`, which
+gives every page a canonical on `https://internationalmoving.company` however it
+was reached — through `www`, another attached domain, or a Vercel preview
+hostname. `app/robots.ts` allows crawling, disallows `/api/`, and points at the
+sitemap.
+
+Two things were still outstanding when indexing was switched on, both flagged to
+the project owner: the quote form was returning an error because the Postmark
+account was pending approval, and the privacy policy is still a draft that does
+not describe sending enquiry data to Postmark and a mailbox. Verify hosting access controls separately. Approved legal/operator details and the public indexing review remain launch work. Google Places is implemented but inert until the key is configured and verified; see the section above. Use only the exact DNS records supplied by the final Vercel project; preserve unrelated email and verification records.
 
 No redirect or site-move configuration from MoverFocus.com or internationalmoving.services is part of this project.

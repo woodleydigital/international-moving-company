@@ -21,7 +21,15 @@ export const metadata: Metadata = {
   alternates: { canonical: "./" },
   // Google Search Console site verification.
   verification: { google: "oEsrTsZ1zdN5GzXPNmwSnR9Pp4VwHhuoem4zmJZ4X4g" },
-  icons: { icon: "/favicon.svg" },
+  // The SVG is what modern browsers use. favicon.ico exists because browsers
+  // and crawlers request it at the root by convention whatever the markup
+  // says — Search Console was logging a 404 for it.
+  icons: {
+    icon: [
+      { url: "/favicon.svg", type: "image/svg+xml" },
+      { url: "/favicon.ico", sizes: "16x16 32x32 48x48" },
+    ],
+  },
 };
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return <html lang="en"><body>{children}</body></html>;

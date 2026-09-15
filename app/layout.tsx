@@ -19,6 +19,8 @@ export const metadata: Metadata = {
   // "./" resolves per route, so every page declares its own canonical without
   // repeating one in each file.
   alternates: { canonical: "./" },
+  // Google Search Console site verification.
+  verification: { google: "oEsrTsZ1zdN5GzXPNmwSnR9Pp4VwHhuoem4zmJZ4X4g" },
   icons: { icon: "/favicon.svg" },
 };
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {

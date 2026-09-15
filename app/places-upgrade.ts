@@ -45,6 +45,15 @@ function loadPlaces(key: string): Promise<PlacesLibrary> {
 /** State of the plain input at the moment of the swap. */
 export type PendingInput = { value: string; focused: boolean };
 
+/**
+ * Warm the Maps JavaScript API without touching the DOM. Hovering an address
+ * field is a good signal the person is about to use it, but swapping the input
+ * before they have focused it would drop the focus they are about to give it.
+ */
+export function preloadPlaces(apiKey: string): void {
+  loadPlaces(apiKey).catch(() => { /* the field stays a plain input */ });
+}
+
 export type UpgradeRequest = {
   apiKey: string;
   host: HTMLElement;

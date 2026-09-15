@@ -34,6 +34,7 @@ export function AddressAutocomplete({ value, onChange, label, description, id, .
   const host = useRef<HTMLDivElement>(null);
   const plain = useRef<HTMLInputElement>(null);
   const requested = useRef(false);
+  const preloaded = useRef(false);
   const restoreFocus = useRef<(() => void) | null>(null);
   // The Places element is uncontrolled once mounted, so its callbacks read the
   // current props through a ref instead of re-running the upgrade.
@@ -70,6 +71,17 @@ export function AddressAutocomplete({ value, onChange, label, description, id, .
       });
   }, [id, label, description, props.placeholder, props.name]);
 
+  // Hovering only warms the library. Swapping the input here would run before
+  // the click lands, so the plain input would be removed while it is being
+  // focused and the focus would go nowhere.
+  const preload = useCallback(() => {
+    if (!apiKey || preloaded.current || requested.current) return;
+    preloaded.current = true;
+    import("./places-upgrade")
+      .then(({ preloadPlaces }) => preloadPlaces(apiKey))
+      .catch(() => { /* the field stays a plain input */ });
+  }, []);
+
   // Focus only once the host has been revealed; a hidden element cannot take it.
   useEffect(() => {
     if (!upgraded) return;
@@ -85,7 +97,7 @@ export function AddressAutocomplete({ value, onChange, label, description, id, .
       value={value}
       onChange={event => onChange(event.target.value)}
       onFocus={upgrade}
-      onPointerEnter={upgrade}
+      onPointerEnter={preload}
       {...props}
     />}
   </>;

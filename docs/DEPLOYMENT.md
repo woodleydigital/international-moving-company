@@ -49,10 +49,21 @@ enable it:
 The referrer allowlist is what gates this. A key whose allowlist omits the
 site's own hostname returns `API_KEY_HTTP_REFERRER_BLOCKED` and the form
 silently stays on plain inputs, which is indistinguishable from the key not
-being set at all. Add the production hostname, `www` if used, and the Vercel
-preview pattern. Allowlist entries are matched exactly, so
-`https://internationalmoving.company/*` and
-`https://www.internationalmoving.company/*` are different entries.
+being set at all.
+
+Entry syntax matters, and a malformed entry fails silently rather than being
+rejected. An entry of the form `*www.example.com` — no scheme, no path
+wildcard, and the asterisk glued to `www` without a separating dot — was tested
+against the live API and matched nothing, neither the apex nor the `www`
+hostname. Use the same shape as the entries that do work:
+
+    https://internationalmoving.company/*
+    https://www.internationalmoving.company/*
+    https://*.internationalmoving.company/*
+
+Add the Vercel preview hostname too, or previews will fall back to plain
+inputs. Verify any change by loading the site and typing in an address field:
+predictions appear, or the browser console reports the blocked referrer.
 
 Leave the variable unset and both fields stay plain text inputs, which is the
 behaviour described under preview boundaries in the README.
@@ -80,9 +91,14 @@ The blocked-key path was exercised end to end against the live API: Places
 returned `API_KEY_HTTP_REFERRER_BLOCKED`, the element raised `gmp-error`, the
 component restored the plain input, and the form completed normally.
 
-The prediction list itself is still unverified, because no referrer allowlisted
-on the current key could reach it. Confirm predictions render and
-`gmp-select` fills the field once the referrers below are in place.
+### Predictions verified — 15 September 2026
+
+The full path was exercised against the live Places API, with the built site
+served under a hostname already on the key's allowlist: predictions rendered,
+`gmp-select` returned a formatted address ("1 Queen Street, Auckland CBD,
+Auckland 1010, New Zealand"), and the form advanced on the selected values with
+no `gmp-error`. The integration itself is confirmed working; only the referrer
+allowlist stands between it and the live site.
 
 Legacy `google.maps.places.Autocomplete` is deliberately not used: it has been
 unavailable to Google Cloud projects created after 1 March 2025.

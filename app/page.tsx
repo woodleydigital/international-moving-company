@@ -1,3 +1,4 @@
+import { latestArticles, formatPublished } from "./articles";
 import { SiteHeader, SiteBrand } from "./site-identity";
 import { imcBrand } from "./brand-system";
 import { maianeBio } from "./people-data";
@@ -39,6 +40,26 @@ export default function Home() {
         </article>
       </section>
       <section className="container shipment-decisions" aria-labelledby="shipment-decisions-title"><p className="eyebrow">LOOK BEHIND THE QUOTATION</p><h2 id="shipment-decisions-title">The details that change your moving plan.</h2><p>A service name, a volume estimate and a sailing date each tell only part of the story. Resolve these three questions before deciding which quotation fits your move.</p><div className="guide-directory"><article><span>01</span><div><h3><a href="/services/shared-container/#groupage-vs-lcl">Who is consolidating your shipment?</a></h3><p>Household groupage and general-freight LCL can involve different handling arrangements. Identify the crews, facilities, billing units and destination scope.</p></div></article><article><span>02</span><div><h3><a href="/guides/air-freight-chargeable-weight/">Are you paying for space or weight?</a></h3><p>An 8 kg carton measuring 60 × 50 × 40 cm has a 20 kg volumetric weight at a divisor of 6,000. Explore the calculation and confirm the actual tariff.</p></div></article><article><span>03</span><div><h3><a href="/guides/international-moving-times/">When do storage charges begin?</a></h3><p>Ask which event starts each allowance, the last free day and who invoices later charges. Vessel arrival alone does not tell you when home delivery can happen.</p></div></article></div></section>
+      {latestArticles(3).length > 0 && (
+        <section className="container shipment-decisions" aria-labelledby="articles-title">
+          <p className="eyebrow">FROM THE BLOG</p>
+          <h2 id="articles-title">Research on the industry behind your move.</h2>
+          <p>Reference and explanation about the carriers, alliances and schedules an international household shipment moves through. Every figure is dated and sourced.</p>
+          <div className="guide-directory">
+            {latestArticles(3).map((article, index) => (
+              <article key={article.href}>
+                <span>{String(index + 1).padStart(2, "0")}</span>
+                <div>
+                  <h3><a href={article.href}>{article.title}</a></h3>
+                  <p>{article.summary}</p>
+                  <p><small>Published <time dateTime={article.published}>{formatPublished(article.published)}</time></small></p>
+                </div>
+              </article>
+            ))}
+          </div>
+          <p><a className="text-link" href="/blog/">All articles <ArrowUpRight size={18}/></a></p>
+        </section>
+      )}
       <section className="container content-links" aria-labelledby="explore-title"><p className="eyebrow">PLAN WITH CLARITY</p><h2 id="explore-title">Go deeper into your move.</h2><div><a href="/moving-guides/">All moving guides and tools</a><a href="/services/packing/">Packing and preparation</a><a href="/services/storage/">Storage between homes</a><a href="/services/">Your removal service scope</a><a href="/how-it-works/">The process and your next steps</a><a href="/services/shared-container/">Shared-container moving</a><a href="/services/full-container/">Sole-use container moving</a><a href="/international-moving-costs/">Costs and quote inclusions</a><a href="/guides/estimating-moving-volume/">Understanding your moving volume</a></div></section>
       <QuestionsSection/>
     </main>

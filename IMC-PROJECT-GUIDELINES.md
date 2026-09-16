@@ -626,8 +626,10 @@ Date assumptions:             Every figure is presented with its as-of date. Cap
                               rather than reconciled silently.
 Author / basis:               Editorial, compiled from named third-party industry sources. No
                               first-hand carrier experience is claimed.
-Visual component:             Five comparison tables: the ranking, consolidated brands, schedule
-                              reliability, alliance membership, and the questions to ask.
+Visual component:             Five comparison tables (the ranking, consolidated brands, schedule
+                              reliability, alliance membership, the questions to ask), two working
+                              tools, and four server-rendered SVG figures added 17 September 2026
+                              and recorded below.
 Incoming / outgoing links:    In from /blog/ and the site map. Out to /guides/international-moving-
                               times/, /guides/comparing-international-moving-quotes/,
                               /services/shared-container/.
@@ -651,3 +653,46 @@ The GSC export supplied for this topic covers a page on a different domain and s
 That source page also lost approximately 99% of its impressions between 25 and 27 June 2026 and has not recovered. This is consistent with, and independently corroborates, the spam-update decline already recorded in the separate-build decision above. No content, markup or link from that domain has been imported here, and the article was written from primary industry sources rather than from it.
 
 This article is therefore expected to attract informational rather than commercial traffic. It is justified as topical coverage and demonstrable expertise, not as an enquiry driver, and should be measured that way.
+
+
+## Visual semantics applied to the shipping-companies article — 17 September 2026
+
+The article shipped with tables and two working tools but no diagrams. Four server-rendered
+SVG figures were added, in `app/shipping-graphics.tsx`, each chosen from the question it
+answers rather than for decoration, and each teaching something no table on the page states.
+
+| Figure | Form | What it teaches that the tables do not |
+| --- | --- | --- |
+| Operated capacity, and the gap the ranking hides | Proportional bars on a shared zero baseline, plus a measured bracket | The first-to-second gap of 2,524,000 TEU is drawn again beside the fifth-place bar, so the reader sees that the gap is wider than an entire top-five fleet. A hatched residual bar puts the ten against the rest of the world fleet. |
+| What 56.4% schedule reliability looks like as ships | Unit array, one square per arrival in a hundred | Converts a percentage nobody pictures into a countable quantity: 56 squares held, 44 did not. |
+| The spread the global average hides | Dot plot on a single 0–100% scale with the worldwide figure as a dashed reference | The 43.9-point span between best and worst is measured on the same scale as the rows, and each row carries its size rank, so size and punctuality are visibly unrelated. |
+| The same capacity, grouped by alliance instead of by carrier | Allocation schematic: one stacked bar, then the same blocs broken into members on the same scale | Produces four totals that appear nowhere else on the page, and ends with the comparison the alliance table cannot make — MSC alone against the whole Premier Alliance. |
+
+### Rules this work established
+
+**Colour is computed, not chosen.** The categorical set used here (`#0083a0`, `#eb6834`,
+`#4a3aa7`, `#008300`) was validated against the lightness band, the chroma floor, adjacent-pair
+colour-vision separation and 3:1 contrast on the white figure surface before any SVG was written.
+The brand accent `#167d8d` was tested first and fails the chroma floor at 0.089 — it reads as grey
+when asked to carry identity — so the teal used in figures is one step deeper. Brand accent remains
+correct for interface and single-mark use; it is not a categorical slot.
+
+**Identity never rests on hue.** Every alliance bloc carries a letter A–D as well as a colour, every
+bar is directly labelled with its value, and the "everything else" marks are hatched rather than
+given a hue of their own, so they cannot be mistaken for a named category.
+
+**No invented marks.** Where a quantity is not published — schedule reliability for the seven
+top-ten carriers Sea-Intelligence did not name, or how much of a group's volume moves under a
+subsidiary brand — there is no mark and the caption says why the row is absent.
+
+**Deliberate deviations from general charting practice.** These figures carry no hover or tooltip
+layer and label every mark rather than a selection. The site is statically exported and its figures
+are server-rendered; each figure also sits directly beside the table carrying the same numbers,
+which is the text equivalent. Adding client-side interaction for values already printed on the page
+would trade the guarantee for nothing.
+
+**Narrow screens.** Figures keep the house pattern: the canvas is a focusable scroll region with an
+accessible label, and the SVG holds its minimum width rather than shrinking text below legibility.
+The reliability dot plot was restructured so its labels sit above each mark instead of in a left
+gutter, which removed a third of its width and brought the data into view on a phone without
+scrolling. Prefer that arrangement for any new figure with long row labels.

@@ -1,6 +1,7 @@
 import { ContentShell, DecisionTable } from '../../content-shell';
 import { CARRIERS, CAPACITY, RELIABILITY, ALLIANCES, teuMillions, sharePct } from '../../shipping-carriers';
 import { ArrivalWindowPlanner, CarrierBrandLookup } from '../../shipping-tools';
+import { CapacityBars, ReliabilityUnitArray, ReliabilitySpread, AllianceAllocation } from '../../shipping-graphics';
 
 export const metadata = {
   title: 'The 10 Largest Shipping Companies in the World (2026) | IMC',
@@ -50,6 +51,7 @@ export default function ShippingCompanies() {
           {((CARRIERS[0].teu + CARRIERS[1].teu + CARRIERS[2].teu) / CAPACITY.worldFleetTeu * 100).toFixed(1)}%
           of world capacity.
         </p>
+        <CapacityBars />
         <p>
           Those ten rows sum to <strong>{fmt(CAPACITY.derivedTopTenTeu)} TEU</strong>, against a
           world fleet of {teuMillions(CAPACITY.worldFleetTeu)}m TEU across{' '}
@@ -111,6 +113,7 @@ export default function ShippingCompanies() {
             ['Average delay when late', `${RELIABILITY.averageDelayDays} days`, 'The buffer a realistic delivery plan needs, before destination handling'],
           ]}
         />
+        <ReliabilityUnitArray />
         <p>
           The spread is the point. Between the most and least reliable carrier in a single month
           there is a gap of{' '}
@@ -120,6 +123,7 @@ export default function ShippingCompanies() {
           . Neither the best nor the worst performer is the largest carrier, and the two most
           reliable are not the two biggest. Size and punctuality are separate properties.
         </p>
+        <ReliabilitySpread />
         <ArrivalWindowPlanner />
       </section>
 
@@ -135,6 +139,7 @@ export default function ShippingCompanies() {
           headings={['Alliance', 'Members', 'Why it matters']}
           rows={ALLIANCES.map(a => [a.name, a.members.join(', '), a.note])}
         />
+        <AllianceAllocation />
         <p>
           The practical consequence: booking with a Gemini member does not guarantee a Gemini ship
           on every leg, and a delay on a shared service affects every carrier selling space on it.

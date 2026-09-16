@@ -2,7 +2,7 @@ import { ContentShell, DecisionTable } from '../../content-shell';
 import { CARRIERS, CAPACITY, RELIABILITY, ALLIANCES, teuMillions, sharePct } from '../../shipping-carriers';
 
 export const metadata = {
-  title: 'The 10 Largest International Shipping Companies (2026) | IMC',
+  title: 'The 10 Largest Shipping Companies in the World (2026) | IMC',
   description: 'The ten biggest container lines ranked by operated capacity, with the schedule-reliability figures the rankings leave out and what both mean for a household shipment.',
 };
 
@@ -11,9 +11,9 @@ const fmt = (n: number) => n.toLocaleString('en-GB');
 export default function ShippingCompanies() {
   return (
     <ContentShell
-      path="/blog/international-shipping-companies/"
+      path="/blog/largest-shipping-companies/"
       category="Shipping lines"
-      title="The ten largest international shipping companies, and what the ranking does not tell you."
+      title="The ten largest shipping companies in the world, and what the ranking does not tell you."
       intro={`Ten carriers operate ${CAPACITY.reportedTopTenSharePct}% of the world's container capacity. Every list of them ranks the same way, by fleet size. Fleet size is not what determines whether your shipment arrives when someone said it would — in ${RELIABILITY.month}, ${RELIABILITY.globalPct}% of container ships worldwide arrived inside their advertised window.`}
       related={[
         { href: '/guides/international-moving-times/', label: 'Understand moving timelines' },

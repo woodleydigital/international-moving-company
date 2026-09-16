@@ -13,8 +13,8 @@ export const metadata = {
  */
 const articles = [
   {
-    href: '/blog/international-shipping-companies/',
-    title: 'The ten largest international shipping companies (2026)',
+    href: '/blog/largest-shipping-companies/',
+    title: 'The ten largest shipping companies in the world (2026)',
     summary:
       'The carriers ranked by operated capacity, the schedule-reliability figures the rankings leave out, and why the line that sold the slot is often not the line whose ship carries the box.',
     date: '17 September 2026',

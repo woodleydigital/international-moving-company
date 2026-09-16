@@ -587,10 +587,10 @@ Next.js's built-in compatibility module contains conditional polyfills. Leave it
 
 A `/blog/` section was created, separate from `/moving-guides/`. Guides answer a task the customer is performing; articles explain the industry the move happens inside. Keeping them apart stops the guide library filling with reference material nobody is mid-task on. `/blog/` and its first article are registered in `site-pages.ts`, so both appear in the XML sitemap and the HTML site map.
 
-### Page brief — /blog/international-shipping-companies/
+### Page brief — /blog/largest-shipping-companies/
 
 ```text
-Page ID / canonical URL:      /blog/international-shipping-companies/
+Page ID / canonical URL:      /blog/largest-shipping-companies/
 Phase / status / owner:       New articles section; drafted for editorial review
 Primary audience, task:       Someone shipping a household who has been told a carrier name, or
                               who is researching which lines carry international shipments, and

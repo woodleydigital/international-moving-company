@@ -1,4 +1,5 @@
 import { ContentShell } from '../content-shell';
+import { ARTICLES, formatPublished } from '../articles';
 
 export const metadata = {
   title: 'Moving and shipping articles | IMC',
@@ -10,16 +11,9 @@ export const metadata = {
  * the customer is performing, articles explain the industry the move happens
  * inside. Keeping them apart stops the guide library filling with reference
  * material nobody is mid-task on.
+ *
+ * The list itself lives in app/articles.ts, shared with the homepage.
  */
-const articles = [
-  {
-    href: '/blog/largest-shipping-companies/',
-    title: 'The ten largest shipping companies in the world (2026)',
-    summary:
-      'The carriers ranked by operated capacity, the schedule-reliability figures the rankings leave out, and why the line that sold the slot is often not the line whose ship carries the box.',
-    date: '17 September 2026',
-  },
-];
 
 export default function Blog() {
   return (
@@ -37,7 +31,7 @@ export default function Blog() {
       <section>
         <h2>Latest articles</h2>
         <ul>
-          {articles.map(a => (
+          {[...ARTICLES].sort((a, b) => b.published.localeCompare(a.published)).map(a => (
             <li key={a.href}>
               <p>
                 <a href={a.href}>
@@ -46,7 +40,9 @@ export default function Blog() {
               </p>
               <p>{a.summary}</p>
               <p>
-                <small>Published {a.date}</small>
+                <small>
+                  Published <time dateTime={a.published}>{formatPublished(a.published)}</time>
+                </small>
               </p>
             </li>
           ))}

@@ -1,5 +1,6 @@
 import { ContentShell, DecisionTable } from '../../content-shell';
 import { CARRIERS, CAPACITY, RELIABILITY, ALLIANCES, teuMillions, sharePct } from '../../shipping-carriers';
+import { ArrivalWindowPlanner, CarrierBrandLookup } from '../../shipping-tools';
 
 export const metadata = {
   title: 'The 10 Largest Shipping Companies in the World (2026) | IMC',
@@ -80,6 +81,7 @@ export default function ShippingCompanies() {
           headings={['Group', 'Also trades as']}
           rows={CARRIERS.filter(c => c.brands?.length).map(c => [c.name, c.brands!.join(', ')])}
         />
+        <CarrierBrandLookup />
       </section>
 
       <section>
@@ -118,6 +120,7 @@ export default function ShippingCompanies() {
           . Neither the best nor the worst performer is the largest carrier, and the two most
           reliable are not the two biggest. Size and punctuality are separate properties.
         </p>
+        <ArrivalWindowPlanner />
       </section>
 
       <section>

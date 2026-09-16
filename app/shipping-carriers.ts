@@ -1,5 +1,5 @@
 /**
- * Container-carrier reference data for /blog/international-shipping-companies/.
+ * Container-carrier reference data for /blog/largest-shipping-companies/.
  *
  * Every figure here is dated and attributed. Two rules govern this file:
  *

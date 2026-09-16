@@ -25,6 +25,6 @@ export const sitePageGroups = [
   ] },
   { title: "Articles", pages: [
     { path: "/blog/", title: "Moving and shipping articles" },
-    { path: "/blog/international-shipping-companies/", title: "The ten largest international shipping companies" },
+    { path: "/blog/largest-shipping-companies/", title: "The ten largest shipping companies in the world" },
   ] },
 ];

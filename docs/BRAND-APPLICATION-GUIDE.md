@@ -29,6 +29,8 @@ The selected original raster board is displayed at the existing primary-mark cro
 
 Current website sizes: mark 108 CSS pixels wide on desktop, 64 on small-screen headers, 80 on small-screen footers at default settings. These are implementation settings, not research-validated minimum sizes. Name text is 14px at default settings and remains visible at every breakpoint. Clear separation is provided by a gap and divider; at narrow widths the header wraps rather than hiding the full name. The full name is also present in the home link's accessible name.
 
+Available raster files: `public/imc-mark.webp` (328 x 126, lossy WebP) is what the site serves. `public/imc-mark.png` (656 x 252, 8-bit RGBA, fully opaque — it carries an alpha channel but no transparency) is an export of that same file at twice its display size, for screen work that cannot take WebP. The PNG preserves the WebP's pixels rather than recovering detail, and is not a master; do not enlarge it beyond its pixel size or use it for print, one-colour or reversed treatments.
+
 The existing favicon is retained. It embeds raster artwork; it is not a vector master. A production vector master, optically tested compact/one-colour/reversed variants and physical print proofs remain separate production work. Do not relabel an embedded bitmap as scalable vector artwork or claim rights/clearance from generation alone. Do not add trade mark symbols without an appropriate basis.
 
 ## Colour roles

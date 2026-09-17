@@ -33,6 +33,8 @@ Available raster files: `public/imc-mark.webp` (328 x 126, lossy WebP) is what t
 
 The existing favicon is retained. It embeds raster artwork; it is not a vector master. A production vector master, optically tested compact/one-colour/reversed variants and physical print proofs remain separate production work. Do not relabel an embedded bitmap as scalable vector artwork or claim rights/clearance from generation alone. Do not add trade mark symbols without an appropriate basis.
 
+The applied identity is published as an internal, non-indexed reference at `/brand/` (`app/brand/page.tsx`). It mirrors this document and takes its measurements from the live stylesheets; update both together.
+
 ## Colour roles
 
 | Role | Colour | Application |
@@ -59,7 +61,7 @@ Use calm, direct British/NZ English. Explain what happens, what information is n
 | Timing | Explain which milestone is estimated | “Guaranteed smooth arrival” |
 | Expert background | Attribute a supplied fact to the named person | Turning previous employers into IMC partners |
 
-The enquiry is still a preview and cannot submit. No success message, response-time promise or contact channel is invented. Genuine service behaviours and notification wording must be agreed when the backend is implemented.
+The enquiry now submits: it is validated, delivered by email and acknowledged on screen. Confirm what was received and what happens next. Do not promise a response time, and do not invent a contact channel that has not been agreed.
 
 ## Layout, imagery and information design
 

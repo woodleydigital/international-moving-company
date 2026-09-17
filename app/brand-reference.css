@@ -1,0 +1,225 @@
+/* Styles for /brand/ only. Imported by that route's page rather than the
+   layout, so the rest of the site does not carry the weight. Everything here
+   is namespaced under .brand-reference to keep it out of the shared cascade. */
+.brand-reference .brand-note {
+  border-left: 3px solid var(--teal);
+  background: var(--ivory);
+  padding: var(--brand-space-3);
+  margin-top: var(--brand-space-3);
+}
+.brand-reference .brand-note p { font-size: var(--type-label); margin: 0; }
+.brand-reference .brand-note p + p { margin-top: var(--brand-space-1); }
+
+/* Mark specimens. Each stage states the surface the mark is standing on, so a
+   correct pairing and an incorrect one are never told apart by memory alone. */
+.brand-reference .brand-stages {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--brand-space-3);
+  margin-top: var(--brand-space-3);
+}
+.brand-reference .brand-stage {
+  border: 1px solid var(--line);
+  border-radius: 3px;
+  overflow: hidden;
+}
+.brand-reference .brand-stage-art {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  /* A fixed height, not a minimum: the navy stage's paper panel is taller than
+     the bare artwork, and a ragged row would put the three captions on three
+     different baselines. */
+  height: 13rem;
+  padding: var(--brand-space-3);
+}
+.brand-reference .brand-stage-art img {
+  width: 10.25rem;
+  height: auto;
+  display: block;
+}
+.brand-reference .stage-white { background: #fff; }
+.brand-reference .stage-paper { background: var(--ivory); }
+.brand-reference .stage-ink { background: var(--ink); }
+/* The artwork carries its own near-ivory ground (#F8F4EE), so on light
+   surfaces it is composited the way the site header and footer composite it. */
+.brand-reference .brand-stage-art.stage-white img,
+.brand-reference .brand-stage-art.stage-paper img { mix-blend-mode: multiply; }
+/* Multiply would erase it on navy, which is exactly why the mark is backed on
+   paper there rather than reversed — there is no reversed master to show. */
+.brand-reference .brand-stage-art.stage-ink img {
+  background: var(--ivory);
+  /* content-box so the panel grows outward: the global border-box would take
+     the padding out of the width and shrink the artwork below the other two
+     specimens, which are meant to be the same size. */
+  box-sizing: content-box;
+  padding: var(--brand-space-4);
+  border-radius: 2px;
+}
+.brand-reference .brand-stage figcaption {
+  border-top: 1px solid var(--line);
+  padding: var(--brand-space-2);
+  font-size: var(--type-caption);
+  line-height: 1.6;
+  color: var(--slate);
+}
+.brand-reference .brand-stage figcaption b {
+  display: block;
+  color: var(--ink);
+  font-size: var(--type-label);
+  margin-bottom: .25rem;
+}
+
+/* Colour roles. The swatch shows the colour; the text carries the role and the
+   measured ratio, so the page never asks the reader to judge contrast by eye. */
+.brand-reference .brand-swatches {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--brand-space-3);
+  margin-top: var(--brand-space-3);
+  list-style: none;
+  padding: 0;
+}
+.brand-reference .brand-swatches li { margin: 0; }
+.brand-reference .brand-chip {
+  height: 5rem;
+  border-radius: 3px;
+  border: 1px solid var(--line);
+  display: flex;
+  align-items: flex-end;
+  padding: var(--brand-space-1);
+  font-size: var(--type-caption);
+  font-variant-numeric: tabular-nums;
+  letter-spacing: .02em;
+}
+.brand-reference .brand-swatches strong {
+  display: block;
+  font-size: var(--type-label);
+  margin-top: .75rem;
+}
+.brand-reference .brand-swatches p {
+  font-size: var(--type-caption);
+  line-height: 1.6;
+  margin-top: .25rem;
+}
+.brand-reference .brand-swatches span {
+  display: block;
+  font-size: var(--type-caption);
+  color: var(--slate);
+  font-variant-numeric: tabular-nums;
+  margin-top: .25rem;
+}
+
+/* Type specimens: the label names the token, the sample is set in it. */
+.brand-reference .brand-type {
+  margin-top: var(--brand-space-3);
+  border-top: 1px solid var(--line);
+}
+.brand-reference .brand-type > div {
+  display: grid;
+  grid-template-columns: 13rem 1fr;
+  gap: var(--brand-space-3);
+  align-items: baseline;
+  padding: var(--brand-space-3) 0;
+  border-bottom: 1px solid var(--line);
+}
+.brand-reference .brand-type dt {
+  font-size: var(--type-caption);
+  color: var(--slate);
+  line-height: 1.6;
+}
+.brand-reference .brand-type dt b {
+  display: block;
+  color: var(--ink);
+  font-size: var(--type-label);
+}
+.brand-reference .brand-type dd { margin: 0; overflow-wrap: anywhere; }
+.brand-reference .specimen-editorial { font-family: var(--font-editorial); font-weight: 400; }
+.brand-reference .specimen-interface { font-family: var(--font-interface); }
+.brand-reference .specimen-display { font-size: var(--type-display); line-height: 1.08; letter-spacing: -.035em; }
+.brand-reference .specimen-title { font-size: var(--type-page-title); line-height: 1.12; letter-spacing: -.03em; }
+.brand-reference .specimen-section { font-size: var(--type-subsection); line-height: 1.22; letter-spacing: -.02em; }
+.brand-reference .specimen-card { font-size: var(--type-card); font-weight: 600; line-height: 1.35; }
+.brand-reference .specimen-body { font-size: var(--type-body); line-height: 1.7; color: var(--slate); }
+.brand-reference .specimen-label {
+  font-size: var(--type-label);
+  font-weight: 700;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: var(--teal);
+}
+.brand-reference .specimen-figures { font-variant-numeric: tabular-nums; font-size: var(--type-card); }
+
+/* File table. The asset rows carry links, so this cannot reuse DecisionTable. */
+.brand-reference .brand-files {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: var(--brand-space-3);
+}
+.brand-reference .brand-files th,
+.brand-reference .brand-files td {
+  text-align: left;
+  vertical-align: top;
+  padding: var(--brand-space-2);
+  border-bottom: 1px solid var(--line);
+  font-size: var(--type-label);
+  line-height: 1.7;
+}
+.brand-reference .brand-files thead th {
+  background: var(--ink);
+  color: #fff;
+  font-size: var(--type-caption);
+  font-weight: 600;
+  border-bottom: 0;
+}
+.brand-reference .brand-files tbody th { font-weight: 600; white-space: nowrap; }
+.brand-reference .brand-files td { color: var(--slate); }
+.brand-reference .brand-files td span {
+  display: block;
+  font-variant-numeric: tabular-nums;
+  font-size: var(--type-caption);
+}
+
+/* Do / do-not pairs. Colour alone never carries the verdict: each column is
+   labelled, which is the same rule the scope tools follow. */
+.brand-reference .brand-rules {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--brand-space-3);
+  margin-top: var(--brand-space-3);
+}
+.brand-reference .brand-rules > div {
+  border-top: 2px solid var(--teal);
+  padding-top: var(--brand-space-2);
+}
+.brand-reference .brand-rules > div:last-child { border-top-color: var(--slate); }
+.brand-reference .brand-rules h3 { font-size: var(--type-ui); margin-bottom: var(--brand-space-1); }
+.brand-reference .brand-rules ul { margin: 0; padding-left: 1.2rem; }
+.brand-reference .brand-rules li { font-size: var(--type-label); line-height: 1.7; }
+
+/* Open questions: what this identity has not been through yet. */
+.brand-reference .brand-gaps { margin-top: var(--brand-space-3); }
+.brand-reference .brand-gaps > div {
+  display: grid;
+  grid-template-columns: 15rem 1fr;
+  gap: var(--brand-space-3);
+  padding: var(--brand-space-2) 0;
+  border-bottom: 1px solid var(--line);
+}
+.brand-reference .brand-gaps dt { font-weight: 600; font-size: var(--type-label); }
+.brand-reference .brand-gaps dd { margin: 0; font-size: var(--type-label); line-height: 1.7; color: var(--slate); }
+
+@media (max-width: 1000px) {
+  .brand-reference .brand-stages,
+  .brand-reference .brand-swatches { grid-template-columns: 1fr 1fr; }
+}
+@media (max-width: 700px) {
+  .brand-reference .brand-stages,
+  .brand-reference .brand-swatches,
+  .brand-reference .brand-rules { grid-template-columns: 1fr; }
+  .brand-reference .brand-type > div,
+  .brand-reference .brand-gaps > div { grid-template-columns: 1fr; gap: var(--brand-space-1); }
+  .brand-reference .brand-files th,
+  .brand-reference .brand-files td { padding: var(--brand-space-1); }
+  .brand-reference .brand-files tbody th { white-space: normal; }
+}

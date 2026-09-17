@@ -582,3 +582,117 @@ Remove avoidable initial JavaScript: keep the comparison table as a Server Compo
 The built homepage's initial modern JavaScript decreased from 502,088 to 453,846 bytes; local gzip comparison decreased from 151,192 to 135,332 bytes. These are asset comparisons, not a new Lighthouse score or measured user timing. CSS remains one cacheable file, approximately 19 KB with local gzip compression. Do not inline the whole shared stylesheet to hide a render-blocking audit: it duplicates styles across page responses and sacrifices cross-page caching. The favicon preserves its original layout but embeds the optimised logo derivative, reducing it from 68,257 to 6,014 bytes. Neither visible artwork nor the colour scheme is redesigned.
 
 Next.js's built-in compatibility module contains conditional polyfills. Leave it intact unless a supported framework change and explicit browser-support decision justify removing it; do not alias framework internals to empty modules. The exact remaining LCP subparts and long-task source still require the expanded report or trace. Preserve the preview indexing and enquiry-submission boundaries.
+
+## Articles section and first article — 17 September 2026
+
+A `/blog/` section was created, separate from `/moving-guides/`. Guides answer a task the customer is performing; articles explain the industry the move happens inside. Keeping them apart stops the guide library filling with reference material nobody is mid-task on. `/blog/` and its first article are registered in `site-pages.ts`, so both appear in the XML sitemap and the HTML site map.
+
+### Page brief — /blog/largest-shipping-companies/
+
+```text
+Page ID / canonical URL:      /blog/largest-shipping-companies/
+Phase / status / owner:       New articles section; drafted for editorial review
+Primary audience, task:       Someone shipping a household who has been told a carrier name, or
+                              who is researching which lines carry international shipments, and
+                              wants to know whether the name matters to their move
+Primary query cluster:        "top 10 shipping companies in the world", "world leading shipping
+                              companies", "international shipping companies", "biggest shipping
+                              companies", "shipping company ranking"
+Distinct purpose:             No existing IMC page covers carriers, alliances or schedule
+                              reliability. /guides/international-moving-times/ owns milestones and
+                              does not name carriers or quantify lateness.
+Main answer:                  The ten largest carriers by operated capacity, then the two things a
+                              ranking by size cannot tell you — punctuality and alliance sharing.
+IMC contribution:             Three additions the comparison set does not carry. (1) Schedule
+                              reliability alongside capacity: global 56.4% for July 2026, a 43.9pp
+                              spread between the best and worst carrier, 6.06 days average lateness.
+                              (2) Alphaliner's consolidation rule, which explains why two "top ten"
+                              lists disagree and why a bill of lading may show APL or Hamburg Süd.
+                              (3) The household-move reality that the customer does not choose the
+                              carrier, with five answerable questions replacing a request for one
+                              by name.
+Operational claims:           None. The page makes no claim about IMC's own carriers, rates,
+                              transit times or relationships, and states that no carrier pays for
+                              its position.
+Sources / access dates:       Alphaliner operated-capacity ranking as reported for 4 January 2026,
+                              cross-checked against two independent write-ups of the same release;
+                              Alphaliner consolidation notes, alphaliner.axsmarine.com/PublicTop100,
+                              accessed 17 September 2026; Sea-Intelligence Global Liner Performance
+                              covering July 2026, reported 27 August 2026; alliance composition
+                              effective February 2025. All held in app/shipping-carriers.ts.
+Date assumptions:             Every figure is presented with its as-of date. Capacity is not
+                              presented as live. The 97,000 TEU difference between the sum of the
+                              ten rows and Alphaliner's own headline total is stated on the page
+                              rather than reconciled silently.
+Author / basis:               Editorial, compiled from named third-party industry sources. No
+                              first-hand carrier experience is claimed.
+Visual component:             Five comparison tables (the ranking, consolidated brands, schedule
+                              reliability, alliance membership, the questions to ask), two working
+                              tools, and four server-rendered SVG figures added 17 September 2026
+                              and recorded below.
+Incoming / outgoing links:    In from /blog/ and the site map. Out to /guides/international-moving-
+                              times/, /guides/comparing-international-moving-quotes/,
+                              /services/shared-container/.
+Primary CTA:                  Standard ContentShell enquiry path.
+Metadata / rendering:         Static. Title 10 Largest International Shipping Companies (2026).
+                              PageStructuredData via ContentShell.
+Review trigger:               Recorded in REVIEW in app/shipping-carriers.ts — a top-ten position
+                              changing hands, monthly reliability moving more than 5pp, or an
+                              alliance membership change.
+Unresolved issues:            Capacity data is from January 2026; Alphaliner's live table is
+                              JavaScript-rendered and could not be read directly, so a more recent
+                              snapshot should replace it when available. Search demand for this
+                              cluster is predominantly US and Indian informational traffic, not UK
+                              or commercial — recorded below.
+```
+
+### Evidence note on search demand
+
+The GSC export supplied for this topic covers a page on a different domain and shows the cluster is maritime-industry reference demand, not moving demand: of 336 queries, 201 concern ocean-carrier capacity rankings and none concern moving, removals or relocation. Geography was 36.6% United States, 10.6% India and 9.3% United Kingdom. The page earned 109 clicks from 9,172 impressions, a 1.19% CTR at average position 8.13, and its largest single query took 1,056 impressions at position 8.9 with no clicks.
+
+That source page also lost approximately 99% of its impressions between 25 and 27 June 2026 and has not recovered. This is consistent with, and independently corroborates, the spam-update decline already recorded in the separate-build decision above. No content, markup or link from that domain has been imported here, and the article was written from primary industry sources rather than from it.
+
+This article is therefore expected to attract informational rather than commercial traffic. It is justified as topical coverage and demonstrable expertise, not as an enquiry driver, and should be measured that way.
+
+
+## Visual semantics applied to the shipping-companies article — 17 September 2026
+
+The article shipped with tables and two working tools but no diagrams. Four server-rendered
+SVG figures were added, in `app/shipping-graphics.tsx`, each chosen from the question it
+answers rather than for decoration, and each teaching something no table on the page states.
+
+| Figure | Form | What it teaches that the tables do not |
+| --- | --- | --- |
+| Operated capacity, and the gap the ranking hides | Proportional bars on a shared zero baseline, plus a measured bracket | The first-to-second gap of 2,524,000 TEU is drawn again beside the fifth-place bar, so the reader sees that the gap is wider than an entire top-five fleet. A hatched residual bar puts the ten against the rest of the world fleet. |
+| What 56.4% schedule reliability looks like as ships | Unit array, one square per arrival in a hundred | Converts a percentage nobody pictures into a countable quantity: 56 squares held, 44 did not. |
+| The spread the global average hides | Dot plot on a single 0–100% scale with the worldwide figure as a dashed reference | The 43.9-point span between best and worst is measured on the same scale as the rows, and each row carries its size rank, so size and punctuality are visibly unrelated. |
+| The same capacity, grouped by alliance instead of by carrier | Allocation schematic: one stacked bar, then the same blocs broken into members on the same scale | Produces four totals that appear nowhere else on the page, and ends with the comparison the alliance table cannot make — MSC alone against the whole Premier Alliance. |
+
+### Rules this work established
+
+**Colour is computed, not chosen.** The categorical set used here (`#0083a0`, `#eb6834`,
+`#4a3aa7`, `#008300`) was validated against the lightness band, the chroma floor, adjacent-pair
+colour-vision separation and 3:1 contrast on the white figure surface before any SVG was written.
+The brand accent `#167d8d` was tested first and fails the chroma floor at 0.089 — it reads as grey
+when asked to carry identity — so the teal used in figures is one step deeper. Brand accent remains
+correct for interface and single-mark use; it is not a categorical slot.
+
+**Identity never rests on hue.** Every alliance bloc carries a letter A–D as well as a colour, every
+bar is directly labelled with its value, and the "everything else" marks are hatched rather than
+given a hue of their own, so they cannot be mistaken for a named category.
+
+**No invented marks.** Where a quantity is not published — schedule reliability for the seven
+top-ten carriers Sea-Intelligence did not name, or how much of a group's volume moves under a
+subsidiary brand — there is no mark and the caption says why the row is absent.
+
+**Deliberate deviations from general charting practice.** These figures carry no hover or tooltip
+layer and label every mark rather than a selection. The site is statically exported and its figures
+are server-rendered; each figure also sits directly beside the table carrying the same numbers,
+which is the text equivalent. Adding client-side interaction for values already printed on the page
+would trade the guarantee for nothing.
+
+**Narrow screens.** Figures keep the house pattern: the canvas is a focusable scroll region with an
+accessible label, and the SVG holds its minimum width rather than shrinking text below legibility.
+The reliability dot plot was restructured so its labels sit above each mark instead of in a left
+gutter, which removed a third of its width and brought the data into view on a phone without
+scrolling. Prefer that arrangement for any new figure with long row labels.

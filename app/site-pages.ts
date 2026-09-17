@@ -23,4 +23,8 @@ export const sitePageGroups = [
     { path: "/international-moving-costs/", title: "International moving costs" },
     { path: "/guides/estimating-moving-volume/", title: "Estimating your moving volume" },
   ] },
+  { title: "Articles", pages: [
+    { path: "/blog/", title: "Moving and shipping articles" },
+    { path: "/blog/largest-shipping-companies/", title: "The ten largest shipping companies in the world" },
+  ] },
 ];

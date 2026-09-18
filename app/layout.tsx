@@ -8,6 +8,7 @@ import "./editorial-design.css";
 import "./diagram-refinement.css";
 import "./information-gain.css";
 import "./brand-application.css";
+import "./site-navigation.css";
 import "./typography.css";
 export const metadata: Metadata = {
   // Pins the host every absolute metadata URL is resolved against, so the

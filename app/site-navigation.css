@@ -1,0 +1,124 @@
+/* Header menu. The bar itself is still styled by .header-inner nav in the
+   earlier stylesheets; everything here is the two-level behaviour on top of it. */
+
+/* A disclosure has to sit in the row exactly like a plain link does, so the
+   summary inherits the link treatment rather than inventing its own. */
+.imc-header .imc-nav-group {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+.imc-header .imc-nav-group > summary {
+  display: inline-flex;
+  align-items: center;
+  gap: .3rem;
+  cursor: pointer;
+  white-space: nowrap;
+  font-family: var(--font-interface);
+  font-size: var(--type-label);
+  font-weight: 600;
+  line-height: 1.5;
+  padding: 12px 0;
+  color: var(--ink);
+  list-style: none;
+  transition: color .15s;
+}
+/* Both are needed: the pseudo-element for WebKit, list-style for everyone else. */
+.imc-header .imc-nav-group > summary::-webkit-details-marker { display: none; }
+.imc-header .imc-nav-group > summary:hover { color: var(--teal); }
+.imc-header .imc-nav-group > summary:focus-visible {
+  outline: 2px solid white;
+  outline-offset: 2px;
+  box-shadow: 0 0 0 5px var(--brand-ink);
+}
+.imc-header .imc-nav-group > summary svg { transition: transform .15s; }
+.imc-header .imc-nav-group[open] > summary { color: var(--teal); }
+.imc-header .imc-nav-group[open] > summary svg { transform: rotate(180deg); }
+
+.imc-header .imc-nav-panel {
+  position: absolute;
+  top: 100%;
+  left: -1rem;
+  z-index: 20;
+  min-width: 17rem;
+  display: flex;
+  flex-direction: column;
+  background: #fff;
+  border: 1px solid var(--brand-line);
+  border-top: 2px solid var(--teal);
+  border-radius: 0 0 3px 3px;
+  box-shadow: 0 14px 34px #142d3b1f;
+  padding: .5rem 0;
+}
+.imc-header .imc-nav-panel a {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: .625rem 1.125rem;
+  font-size: var(--type-label);
+  font-weight: 500;
+  line-height: 1.45;
+  color: var(--ink);
+  white-space: nowrap;
+}
+.imc-header .imc-nav-panel a:hover { background: var(--ivory); color: var(--teal); }
+.imc-header .imc-nav-panel a:focus-visible {
+  outline: 2px solid var(--teal);
+  outline-offset: -2px;
+  box-shadow: none;
+}
+/* The section page itself, set apart so the panel never hides its own parent. */
+.imc-header .imc-nav-all {
+  margin-top: .375rem;
+  padding-top: .75rem !important;
+  border-top: 1px solid var(--brand-line);
+  font-weight: 600 !important;
+  color: var(--teal) !important;
+}
+.imc-header .imc-nav-all svg { flex-shrink: 0; }
+
+/* The bar wraps onto its own row here. Six items plus two chevrons no longer fit
+   beside the mark and the action, and a row that wraps mid-menu reads as broken. */
+@media (max-width: 1240px) {
+  .imc-header .header-inner { flex-wrap: wrap; gap: 1rem; }
+  .imc-header .header-cta { margin-left: auto; }
+  .imc-header .header-inner nav {
+    display: flex;
+    order: 3;
+    width: 100%;
+    margin: 0;
+    padding-top: .75rem;
+    border-top: 1px solid var(--brand-line);
+    justify-content: flex-start;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: .25rem 1.5rem;
+  }
+  .imc-header .header-inner nav > a { padding-block: 12px; }
+}
+
+/* On a phone the menu is a wrapped block, so a panel hung under one item would
+   fall off the right edge. It becomes a full-width tray under the whole menu
+   instead, which also keeps the closed header short: six items and two
+   disclosures still cost fewer rows than giving each section its own line. */
+@media (max-width: 760px) {
+  .imc-header .imc-nav { position: relative; }
+  /* static, so the panel below is positioned against the whole menu rather than
+     against the one item, and can run its full width. */
+  .imc-header .imc-nav-group { position: static; }
+  .imc-header .imc-nav-group > summary { padding-block: .5rem; }
+  .imc-header .header-inner nav > a { padding-block: .5rem !important; }
+  .imc-header .imc-nav-panel {
+    top: calc(100% + .5rem);
+    left: 0;
+    right: 0;
+    min-width: 0;
+    border-radius: 3px;
+  }
+  .imc-header .imc-nav-panel a {
+    white-space: normal;
+    padding: .625rem 1rem;
+    min-height: 2.75rem;
+  }
+}

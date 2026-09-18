@@ -8,6 +8,7 @@ export const sitePageGroups = [
   ] },
   { title: "International removal services", pages: [
     { path: "/services/", title: "Our international removal services" },
+    { path: "/services/shipping-household-goods/", title: "Shipping household goods internationally" },
     { path: "/services/packing/", title: "Packing for your international move" },
     { path: "/services/storage/", title: "Storage during your move" },
     { path: "/services/shared-container/", title: "Shared-container moving" },

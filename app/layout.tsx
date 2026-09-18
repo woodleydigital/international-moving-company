@@ -20,8 +20,12 @@ export const metadata: Metadata = {
   // "./" resolves per route, so every page declares its own canonical without
   // repeating one in each file.
   alternates: { canonical: "./" },
-  // Google Search Console site verification.
-  verification: { google: "oEsrTsZ1zdN5GzXPNmwSnR9Pp4VwHhuoem4zmJZ4X4g" },
+  // Search engine site verification. `other` carries any name/content pair Next
+  // has no named field for, which is how Bing's token is emitted.
+  verification: {
+    google: "oEsrTsZ1zdN5GzXPNmwSnR9Pp4VwHhuoem4zmJZ4X4g",
+    other: { "msvalidate.01": "AA2009471F2317746B296EB6F58C81A0" },
+  },
   // The SVG is what modern browsers use. favicon.ico exists because browsers
   // and crawlers request it at the root by convention whatever the markup
   // says — Search Console was logging a 404 for it.

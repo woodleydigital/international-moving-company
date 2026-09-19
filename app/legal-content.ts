@@ -1,7 +1,10 @@
 import { maianeBio } from "./people-data";
-export type PolicyPage = {title:string;intro:string;sections:[string,string][];pending:string};
+// lastmod feeds the sitemap. Bump it when this page's wording changes
+// substantively; leave it alone for typographic or layout-only edits.
+export type PolicyPage = {title:string;intro:string;sections:[string,string][];pending:string;lastmod:string};
 export const policyPages: Record<string,PolicyPage> = {
   "privacy-policy": {
+    "lastmod": "2026-09-14",
     "title": "Privacy Policy",
     "intro": "How information is handled in the IMC website preview, and what must be confirmed before enquiries go live.",
     "sections": [
@@ -33,6 +36,7 @@ export const policyPages: Record<string,PolicyPage> = {
     "pending": "Confirm the legal operator, jurisdiction, privacy contact, processors, countries of processing, retention schedule and actual enquiry workflow."
   },
   "terms-and-conditions": {
+    "lastmod": "2026-09-14",
     "title": "Terms & Conditions",
     "intro": "Draft website-use terms for IMC. A booked international move will need a separate, agreed service contract.",
     "sections": [
@@ -68,6 +72,7 @@ export const policyPages: Record<string,PolicyPage> = {
     "pending": "Confirm legal entity, address, governing law, booking model, service terms, payment and cancellation rules, liability, insurance and dispute process."
   },
   "modern-slavery-statement": {
+    "lastmod": "2026-09-14",
     "title": "Modern Slavery Statement",
     "intro": "A proposed approach to preventing forced labour and exploitation in international relocation supply chains.",
     "sections": [
@@ -95,6 +100,7 @@ export const policyPages: Record<string,PolicyPage> = {
     "pending": "Confirm applicability, reporting period, responsible officer, supplier procedures, reporting channel and approval. Do not add a signature or compliance badge without evidence."
   },
   "code-of-ethics": {
+    "lastmod": "2026-09-14",
     "title": "Code of Ethics",
     "intro": "Proposed standards for honest advice, respectful conduct and responsible international relocation management.",
     "sections": [
@@ -122,6 +128,7 @@ export const policyPages: Record<string,PolicyPage> = {
     "pending": "Approve this proposed code and confirm its owner, reporting route, conflict-disclosure process and implementation."
   },
   "edi-policy": {
+    "lastmod": "2026-09-14",
     "title": "Equality, Diversity & Inclusion Policy",
     "intro": "Proposed principles for fair treatment and an inclusive experience when working with IMC.",
     "sections": [
@@ -149,6 +156,7 @@ export const policyPages: Record<string,PolicyPage> = {
     "pending": "Confirm policy ownership, reporting channels, adjustment process, relevant jurisdictions and approval."
   },
   "accessibility": {
+    "lastmod": "2026-09-14",
     "title": "Accessibility",
     "intro": "How the IMC preview supports access, its known limitations and the work still needed before launch.",
     "sections": [
@@ -176,6 +184,7 @@ export const policyPages: Record<string,PolicyPage> = {
     "pending": "Complete accessibility testing and confirm an accessible support route before public launch."
   },
   "about-us": {
+    "lastmod": "2026-09-14",
     "title": "About International Moving Company",
     "intro": "IMC is an international relocation management company focused on door-to-door household removals worldwide.",
     "sections": [
@@ -195,6 +204,7 @@ export const policyPages: Record<string,PolicyPage> = {
     "pending": ""
   },
   "contact-us": {
+    "lastmod": "2026-09-14",
     "title": "Contact IMC",
     "intro": "Discussing an international move starts with your origin, destination, timing and the belongings you plan to take.",
     "sections": [

@@ -28,7 +28,18 @@ export const enquirySchema = z.object({
   // by the schema on purpose: rejecting it here would tell the bot the field
   // matters. The route checks it after parsing and quietly discards.
   website: z.string().max(2000).default(""),
+  // Where the enquiry came from when the form is embedded on a partner or
+  // division site (app/embed/enquiry). Short slugs only; the label shown to
+  // staff comes from ENQUIRY_SOURCES, never from the browser.
+  source: z.string().trim().max(40).regex(/^[a-z0-9-]*$/, "Unknown enquiry source.").default(""),
+  market: z.string().trim().max(20).regex(/^[a-z0-9-]*$/, "Unknown enquiry market.").default(""),
+  sourcePage: z.string().trim().max(300).default(""),
 });
+
+/** Sites allowed to embed the form, keyed by the `source` slug they send. */
+export const ENQUIRY_SOURCES: Record<string, { label: string; site: string }> = {
+  removalstonz: { label: "Removals to NZ", site: "https://removalstonz.com" },
+};
 
 export type Enquiry = z.infer<typeof enquirySchema>;
 
@@ -61,11 +72,21 @@ export function formatEnquiry(enquiry: Enquiry): { subject: string; text: string
     }
   }
 
+  const origin = enquiry.source ? ENQUIRY_SOURCES[enquiry.source] : undefined;
+  if (enquiry.source) {
+    lines.push(
+      "",
+      `Source:      ${origin ? `${origin.label} (${origin.site})` : enquiry.source}`,
+      ...(enquiry.market ? [`Market:      ${enquiry.market.toUpperCase()}`] : []),
+      ...(enquiry.sourcePage ? [`Page:        ${enquiry.sourcePage}`] : []),
+    );
+  }
+
   if (enquiry.notes) lines.push("", "Notes:", enquiry.notes);
   lines.push("", "Volumes are the customer's own estimates from the website tool, not a survey.");
 
   return {
-    subject: `Quote request: ${enquiry.origin} → ${enquiry.destination}`,
+    subject: `${origin ? `[${origin.label}] ` : ""}Quote request: ${enquiry.origin} → ${enquiry.destination}`,
     text: lines.join("\n"),
   };
 }

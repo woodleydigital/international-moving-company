@@ -14,9 +14,21 @@ const MovingSizeSelect = dynamic(() => import("./moving-size-select"), {
   loading: () => <select id="move-size" className="quote-select" aria-labelledby="move-size-label" disabled><option>Loading moving sizes…</option></select>,
 });
 
-export function QuoteForm() {
+/** Set only when the form is embedded on another site (app/embed/enquiry). */
+export type EnquirySource = { source: string; market?: string; page?: string };
+
+type QuoteFormProps = {
+  /** Tags the enquiry with the embedding site so staff can see where it came from. */
+  origin?: EnquirySource;
+  /** Prefills "Moving to", e.g. "New Zealand" on a destination-specific site. */
+  initialDestination?: string;
+  /** Called once the enquiry has been accepted. */
+  onSent?: () => void;
+};
+
+export function QuoteForm({ origin, initialDestination = "", onSent }: QuoteFormProps = {}) {
   const [step, setStep] = useState(0);
-  const [details, setDetails] = useState({from:"", to:"", date:"", size:"", notes:"", name:"", email:"", phone:""});
+  const [details, setDetails] = useState({from:"", to:initialDestination, date:"", size:"", notes:"", name:"", email:"", phone:""});
   const [quantities, setQuantities] = useState<Record<string, number>>({});
   const [search, setSearch] = useState("");
   const [error, setError] = useState("");
@@ -78,6 +90,7 @@ export function QuoteForm() {
             item: entry.item, quantity: quantities[entry.item], volumeM3: entry.volumeM3,
           })),
           website: botField,
+          ...(origin ? { source: origin.source, market: origin.market ?? "", sourcePage: origin.page ?? "" } : {}),
         }),
       });
       const body = await response.json().catch(() => null);
@@ -87,6 +100,7 @@ export function QuoteForm() {
         return;
       }
       setStatus("sent");
+      onSent?.();
     } catch {
       setError("We could not reach the server. Check your connection and try again.");
       setStatus("editing");

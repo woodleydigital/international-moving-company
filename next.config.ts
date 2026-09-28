@@ -38,6 +38,22 @@ const config: NextConfig = {
   // static export cannot serve. Every page is still prerendered at build time.
   trailingSlash: true,
   poweredByHeader: false,
+  // /embed/enquiry/ is the quote form alone, framed by IMC division sites.
+  // Only those sites may frame it. Add a staging or preview origin through
+  // EMBED_FRAME_ANCESTORS (space-separated) in the Vercel project settings;
+  // it is read at build time, so redeploy after changing it.
+  async headers() {
+    const ancestors = [
+      "'self'",
+      "https://removalstonz.com",
+      "https://*.removalstonz.com",
+      ...(process.env.EMBED_FRAME_ANCESTORS ?? "").split(/\s+/).filter(Boolean),
+    ];
+    return [{
+      source: "/embed/:path*",
+      headers: [{ key: "Content-Security-Policy", value: `frame-ancestors ${ancestors.join(" ")}` }],
+    }];
+  },
   // Applies to `npm run build`, which pins webpack. `next dev` uses Turbopack
   // and keeps Next's full polyfill; the production export is what ships.
   webpack: (webpackConfig, { webpack, isServer }) => {

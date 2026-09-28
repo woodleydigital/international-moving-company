@@ -1,0 +1,5 @@
+/* The embedded form sits inside the host page's layout, so the page around it
+   is transparent and unpadded; the enquiry panel keeps its own IMC styling. */
+html:has(.embed-shell), html:has(.embed-shell) body { background: transparent; }
+.embed-shell { padding: 0; margin: 0; }
+.embed-shell .enquiry-panel { margin: 0; box-shadow: none; min-height: 0; }

@@ -14,9 +14,14 @@ function post(message: Record<string, unknown>) {
 
 export function EmbeddedEnquiry(props: { origin?: EnquirySource; initialDestination?: string }) {
   useEffect(() => {
-    const report = () => post({ type: "height", height: Math.ceil(document.documentElement.scrollHeight) });
+    // Measure the form's own box, not the document: the document is at least
+    // as tall as the iframe, so reporting it would let the frame grow but
+    // never shrink back when a step gets shorter.
+    const shell = document.querySelector(".embed-shell");
+    if (!shell) return;
+    const report = () => post({ type: "height", height: Math.ceil(shell.getBoundingClientRect().height) });
     const observer = new ResizeObserver(report);
-    observer.observe(document.body);
+    observer.observe(shell);
     report();
     return () => observer.disconnect();
   }, []);

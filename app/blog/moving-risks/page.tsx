@@ -13,7 +13,7 @@ const cite = (key: keyof typeof CITATIONS) => CITATIONS[key];
 export default function MovingRisks() {
   return (
     <ContentShell
-      path="/blog/risks-of-international-moving/"
+      path="/blog/moving-risks/"
       category="Moving risk"
       title="The risks in an international move, and who sends the invoice."
       intro="Most of what goes wrong with an international move is not damage or loss. It is a cost that moves from one party to another because a container sat somewhere longer than someone's tariff allowed. Those costs are not random: nearly all of them are positions already written into a contract before your shipment leaves, and on the United States leg several are governed by rules that give the paying party more standing than they usually realise."

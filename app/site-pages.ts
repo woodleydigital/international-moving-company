@@ -34,7 +34,7 @@ export const sitePageGroups = [
   ] },
   { title: "Articles", pages: [
     { path: "/blog/", title: "Moving and shipping articles", lastmod: "2026-10-27" },
-    { path: "/blog/risks-of-international-moving/", title: "The risks in an international move, and who sends the invoice", lastmod: "2026-10-27" },
+    { path: "/blog/moving-risks/", title: "The risks in an international move, and who sends the invoice", lastmod: "2026-10-27" },
     { path: "/blog/largest-shipping-companies/", title: "The ten largest shipping companies in the world", lastmod: "2026-09-16" },
   ] },
 ];

@@ -19,7 +19,7 @@ export interface Article {
 
 export const ARTICLES: Article[] = [
   {
-    href: '/blog/risks-of-international-moving/',
+    href: '/blog/moving-risks/',
     title: 'The risks in an international move, and who sends the invoice',
     summary:
       'Demurrage, detention, rolled sailings, container availability, customs examinations, cartage, store handling and storage in transit — what each one is, which party invoices you, and what the US billing rules give the party who pays.',

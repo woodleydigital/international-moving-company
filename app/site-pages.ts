@@ -33,7 +33,8 @@ export const sitePageGroups = [
     { path: "/guides/estimating-moving-volume/", title: "Estimating your moving volume", lastmod: "2026-09-14" },
   ] },
   { title: "Articles", pages: [
-    { path: "/blog/", title: "Moving and shipping articles", lastmod: "2026-09-17" },
+    { path: "/blog/", title: "Moving and shipping articles", lastmod: "2026-10-27" },
+    { path: "/blog/risks-of-international-moving/", title: "The risks in an international move, and who sends the invoice", lastmod: "2026-10-27" },
     { path: "/blog/largest-shipping-companies/", title: "The ten largest shipping companies in the world", lastmod: "2026-09-16" },
   ] },
 ];

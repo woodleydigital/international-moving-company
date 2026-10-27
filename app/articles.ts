@@ -19,6 +19,13 @@ export interface Article {
 
 export const ARTICLES: Article[] = [
   {
+    href: '/blog/risks-of-international-moving/',
+    title: 'The risks in an international move, and who sends the invoice',
+    summary:
+      'Demurrage, detention, rolled sailings, container availability, customs examinations, cartage, store handling and storage in transit — what each one is, which party invoices you, and what the US billing rules give the party who pays.',
+    published: '2026-10-27',
+  },
+  {
     href: '/blog/largest-shipping-companies/',
     title: 'The ten largest shipping companies in the world (2026)',
     summary:

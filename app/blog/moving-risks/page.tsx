@@ -14,6 +14,9 @@ export default function MovingRisks() {
   return (
     <ContentShell
       path="/blog/moving-risks/"
+      // The regulations the article rests on, carried into the BlogPosting's
+      // citation property from the same records the prose quotes.
+      citations={Object.values(CITATIONS).map(c => ({ name: `${c.ref} — ${c.title}`, url: c.url }))}
       category="Moving risk"
       title="The risks in an international move, and who sends the invoice."
       intro="Most of what goes wrong with an international move is not damage or loss. It is a cost that moves from one party to another because a container sat somewhere longer than someone's tariff allowed. Those costs are not random: nearly all of them are positions already written into a contract before your shipment leaves, and on the United States leg several are governed by rules that give the paying party more standing than they usually realise."
@@ -142,6 +145,12 @@ export default function MovingRisks() {
           ]}
         />
         <p>
+          A shared-container shipment meets these differently from a sole-use one:{' '}
+          <a href="/services/shared-container/">consolidation</a> adds a waiting step before
+          departure, while <a href="/services/full-container/">a sole-use container</a> departs on
+          its own booking. Neither is safer; they fail in different places.
+        </p>
+        <p>
           None of these is unusual and none implies anyone has behaved badly. The failure mode is
           quieter: a date treated as fixed by the customer and as indicative by everyone else.
           Establish which it is in writing, and the same event becomes a rescheduling conversation
@@ -197,7 +206,9 @@ export default function MovingRisks() {
           misread as a single daily rate.
         </p>
         <p>
-          It is normally three charges, not one. There is the <strong>cartage</strong> to move the
+          <a href="/services/storage/">Storage arranged as a service</a> is a different
+          proposition from storage forced on you by a delay, but it is billed the same way, and it
+          is normally three charges, not one. There is the <strong>cartage</strong> to move the
           shipment from the port or terminal to the warehouse. There is{' '}
           <strong>store handling</strong>, charged for taking the shipment into the warehouse and
           again for taking it out &mdash; in and out are commonly separate lines. Then there is the
@@ -230,8 +241,11 @@ export default function MovingRisks() {
       <section>
         <h2>What to do with this</h2>
         <p>
-          The practical value of knowing the mechanisms is that it changes what you ask for, and
-          when. Six requests, all of which are reasonable to make before you commit:
+          Timing is where most of this surfaces, so read it alongside{' '}
+          <a href="/guides/international-moving-times/">how an international move&rsquo;s dates are
+          built up</a> and <a href="/services/shipping-household-goods/">how a household shipment
+          is measured and classified</a>. The practical value of knowing the mechanisms is that it
+          changes what you ask for, and when. Six requests, all of which are reasonable to make before you commit:
         </p>
         <ul>
           <li>

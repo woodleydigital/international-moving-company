@@ -1,4 +1,11 @@
 import { maianeBio } from "./people-data";
+import { ARTICLES } from "./articles";
+import { sitePageGroups } from "./site-pages";
+
+// dateModified comes from the same lastmod the sitemap publishes, so a page
+// cannot tell a crawler two different stories about when it last changed.
+const lastmodFor = (path: string) =>
+  sitePageGroups.flatMap(g => g.pages).find(p => p.path === path)?.lastmod;
 const origin = "https://internationalmoving.company";
 const organizationId = `${origin}/#organization`;
 const websiteId = `${origin}/#website`;
@@ -15,11 +22,12 @@ const people = [
  {"@type":"Person","@id":`${origin}/#warwick-woodley`,name:"Warwick Woodley",url:`${origin}/about-us/#section-2`,image:`${origin}/warwick-woodley.webp`,sameAs:["https://www.linkedin.com/in/warwick-woodley-ba253092/"],affiliation:{"@id":organizationId},description:"Warwick brings more than four decades of hands-on experience in international moving and freight forwarding. A former FIDI Academy trainer, he has trained moving professionals around the world."},
  {"@type":"Person","@id":`${origin}/#maiane-cassanego`,name:"Maiane Cassanego",url:`${origin}/about-us/#section-3`,image:`${origin}/maiane-cassanego-enhanced.webp`,sameAs:["https://www.linkedin.com/in/maiane-cassanego-865450114/"],affiliation:{"@id":organizationId},description:maianeBio}
 ];
-export function PageStructuredData({path,title,intro}:{path:string;title:string;intro:string}){
+export function PageStructuredData({path,title,intro,citations}:{path:string;title:string;intro:string;citations?:{name:string;url:string}[]}){
  const url = `${origin}${path}`;
  const isAbout = path==="/about-us/";
  const showPeople = isAbout || path==="/";
- const type = isAbout?"AboutPage":path==="/contact-us/"?"ContactPage":["/services/","/moving-guides/","/site-map/"].includes(path)?"CollectionPage":"WebPage";
+ const type = isAbout?"AboutPage":path==="/contact-us/"?"ContactPage":path==="/blog/"?"Blog":["/services/","/moving-guides/","/site-map/"].includes(path)?"CollectionPage":"WebPage";
+ const article = ARTICLES.find(a=>a.href===path);
  const serviceName = services[path];
  const page = {"@type":type,"@id":`${url}#webpage`,url,name:title,description:intro,inLanguage:"en",isPartOf:{"@id":websiteId},publisher:{"@id":organizationId},
   ...(path!=="/"?{breadcrumb:{"@id":`${url}#breadcrumb`}}:{}),
@@ -28,6 +36,17 @@ export function PageStructuredData({path,title,intro}:{path:string;title:string;
  const graph:Record<string,unknown>[] = [organization,website,page];
  if(path!=="/") graph.push({"@type":"BreadcrumbList","@id":`${url}#breadcrumb`,itemListElement:[{"@type":"ListItem",position:1,name:"Home",item:`${origin}/`},{"@type":"ListItem",position:2,name:title,item:url}]});
  if(serviceName)graph.push({"@type":"Service","@id":`${url}#service`,name:serviceName,serviceType:serviceName,description:intro,url,provider:{"@id":organizationId},mainEntityOfPage:{"@id":`${url}#webpage`}});
+ // A blog article gets a BlogPosting of its own, pointing back at the WebPage
+ // through mainEntityOfPage rather than restating the page. author is the
+ // organisation: no individual is credited with writing these, and attributing
+ // one who did not would be worse than attributing none.
+ if(article)graph.push({"@type":"BlogPosting","@id":`${url}#article`,headline:article.title,description:intro,
+  datePublished:article.published,dateModified:lastmodFor(path)??article.published,
+  author:{"@id":organizationId},publisher:{"@id":organizationId},
+  mainEntityOfPage:{"@id":`${url}#webpage`},isPartOf:{"@id":websiteId},inLanguage:"en",
+  // The sources the article actually rests on, named in the markup rather than
+  // only in the prose.
+  ...(citations?.length?{citation:citations.map(c=>({"@type":"CreativeWork",name:c.name,url:c.url}))}:{})});
  if(showPeople)graph.push(...people);
  return <script type="application/ld+json" dangerouslySetInnerHTML={{__html:JSON.stringify({"@context":"https://schema.org","@graph":graph}).replace(/</g,"\\u003c")}}/>;
 }

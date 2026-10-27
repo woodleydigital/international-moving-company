@@ -66,7 +66,7 @@ export default function ShippingHouseholdGoods() {
       <p>Between your front door and your new one, the shipment passes through several sets of hands, some of them subcontracted. You will not witness most of these handoffs. What crosses each one is paperwork, which is why the inventory matters more than any single company in the chain.</p>
       <CustodyAndRecords />
       <p>The inventory is the only record present at both ends. It is what a delivery check is made against, what a claim refers to, and what tells anyone in the chain whether a carton is yours. Have it itemised with condition noted, keep your own copy, and check the delivery record against it while the crew is still there rather than afterwards.</p>
-      <p>Ask who performs each stage before booking, not after. A door-to-door price describes the start and finish of the move; it does not by itself say who packs, who loads, who handles the shipment at the destination port, or who you contact when a date moves. <a href="/how-it-works/">The stage-by-stage process</a> sets out the records to hold at each handoff.</p>
+      <p>Ask who performs each stage before booking, not after. A door-to-door price describes the start and finish of the move; it does not by itself say who packs, who loads, who handles the shipment at the destination port, or who you contact when a date moves. <a href="/how-it-works/">The stage-by-stage process</a> sets out the records to hold at each handoff, and <a href="/blog/moving-risks/">the risks in an international move</a> covers what each handoff costs when it stalls.</p>
     </section>
 
     <section>
